@@ -1,0 +1,46 @@
+import java.util.Scanner;
+
+public class app {
+	public static void main(String args[]) {
+		Scanner in = new Scanner(System.in);
+		while (true) {
+			double result[] = new double[3];
+			int pos = 0;
+			System.out.println("Digite um valor: ");
+			int valor = in.nextInt();
+
+			double termo = 0.0;
+			try {
+				
+				termo = Math.pow(5, valor) / Fatorial.fatorial(valor);
+				System.out.println(termo);
+				result[pos] = termo;
+				pos++;
+				
+			} catch (FatorialException e) {
+				System.out.println("N�o consigo calcular  " + e.getValor() + "\n");
+				System.out.println("Tente novamente");
+			} catch (ArrayIndexOutOfBoundsException e) {
+				double aux[] = new double[pos * 2];
+				for (int i = 0; i < pos; i++) {
+					aux[i] = result[i];
+				}
+				aux[pos] = termo;
+				pos++;
+				result = aux;
+			} catch (InterruptedException e) {
+				System.out.println("?????");
+			} catch (Exception e) {
+				System.out.println();
+			} finally {
+				System.out.println("Sempre passa aqui");
+			}
+			
+			
+			if (valor == 0) {
+				break;
+			}
+		}
+		System.out.println("Fim");
+	}
+}
