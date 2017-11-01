@@ -2,10 +2,8 @@ package pucrs.myflight.gui;
 
 import java.awt.Color;
 import java.util.ArrayList;
-
 import org.jxmapviewer.viewer.GeoPosition;
-
-import pucrs.myflight.modelo.Geo;
+import pucrs.myflight.modelojojo.Geo;
 
 public class Tracado {
 	
