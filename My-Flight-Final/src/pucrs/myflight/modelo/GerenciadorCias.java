@@ -1,70 +1,68 @@
-package pucrs.myflight.modelo;
+
+package pucrs.myflight.modelojojo;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class GerenciadorCias {
-	private ArrayList<CiaAerea> empresas;
-	
+	private HashMap<String,CiaAerea> empresas;
+
 	public GerenciadorCias() {
-		empresas = new ArrayList<>();
+		empresas = new HashMap<>();
+		try {
+			carregaDados();
+		} catch (IOException e) {
+			System.err.format("Erro de E/S: %s%n", e);
+		}
 	}
-	
-	public void adicionar(CiaAerea nova) {
-		empresas.add(nova);
+
+	public void addCia(CiaAerea nova) {
+		empresas.put(nova.getCodigo(),nova);
 	}
-	
-	public void carregaCias() throws IOException {
+
+	public HashMap<String,CiaAerea> listarTodas() {
+		HashMap<String,CiaAerea> copia = new HashMap<>();
+		for (String key: empresas.keySet()) {
+			copia.put(key,empresas.get(key));
+		}
+		return copia;
+	}
+
+	public CiaAerea buscarCod(String cod) {
+		CiaAerea cia = empresas.get(cod);
+		return cia;
+	}
+
+	public CiaAerea buscarNome(String nome) {
+		for (String key: empresas.keySet()) {
+			if (nome.equalsIgnoreCase(empresas.get(key).getNome())) {
+				return empresas.get(key);
+			}
+		}
+		return null;
+	}
+
+	public void carregaDados() throws IOException {
 		Path path2 = Paths.get("airlines.dat");
 		try (Scanner sc = new Scanner(Files.newBufferedReader(path2, Charset.forName("utf8")))) {
-		  sc.useDelimiter("[;\n]"); // separadores: ; e nova linha
-		  String header = sc.nextLine(); // pula cabeçalho
-		  String codigo, nome;
-		  while (sc.hasNext()) {
-		    codigo = sc.next();
-		    nome = sc.next();		    
-		    CiaAerea nova = new CiaAerea(codigo, nome);
-		    empresas.add(nova);
-		    System.out.format("%s - %s%n", codigo, nome);
-		  }
+			sc.useDelimiter("[;\n]");
+			String header = sc.nextLine();
+			String codigo, nome;
+			while (sc.hasNext()) {
+				codigo = sc.next();
+				nome = sc.next();
+				CiaAerea nova = new CiaAerea(codigo, nome);
+				empresas.put(codigo,nova);
+				System.out.println(codigo +"    -    "+  nome);
+			}
+		} catch (IOException e) {
+			System.err.format("Erro de E/S: %s%n", e);
 		}
-		catch (IOException x) {
-		  System.err.format("Erro de E/S: %s%n", x);
-		}
+		
 	}
-	
-	public ArrayList<CiaAerea> listarTodas() {
-		ArrayList<CiaAerea> copia = new ArrayList<>();
-		for(CiaAerea cia: empresas)
-			copia.add(cia);
-		return copia;				
-	}
-	
-	public CiaAerea buscarCodigo(String cod) {
-		for(CiaAerea cia: empresas)
-			if(cod.equals(cia.getCodigo()))
-				return cia;
-		return null; // Não achei!
-	}
-	
-	public CiaAerea buscarNome(String nome) {
-		for(CiaAerea cia: empresas)
-			if(nome.equals(cia.getNome()))
-				return cia;
-		return null; // Não achei!
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

@@ -27,7 +27,7 @@ import org.jxmapviewer.viewer.WaypointRenderer;
 
 import net.sf.geographiclib.*;
 
-import pucrs.myflight.modelojojo.Geo;
+import pucrs.myflight.modelo.Geo;
 
 /**
  * Classe para gerenciar um mapa

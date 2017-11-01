@@ -1,32 +1,67 @@
-package pucrs.myflight.modelo;
+package pucrs.myflight.modelojojo;
 
-import java.util.ArrayList;
+
+
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Scanner;
 
 public class GerenciadorAeroportos {
+	private HashMap<String,Aeroporto> aeroporto;
+	private int count;
 
-	private ArrayList<Aeroporto> aeroportos;
-	
-	public GerenciadorAeroportos() {
-		aeroportos = new ArrayList<>();
+	public GerenciadorAeroportos() {		
+		aeroporto = new HashMap<>(); 
+		count = 0;
+	}
+	public void addAeroporto(Aeroporto novo){
+		aeroporto.put(novo.getCodigo(),novo);
 	}
 	
-	public void adicionar(Aeroporto aero) {
-		aeroportos.add(aero);
+	public HashMap<String,Aeroporto> listarTodos(){
+		HashMap<String,Aeroporto> copia= new HashMap<>();
+		for(String key: aeroporto.keySet()){
+			copia.put(key,aeroporto.get(key));
+		}
+		return copia;
 	}
 	
-	public void ordenarNome() {
-		//Collections.sort(aeroportos);
-		aeroportos.sort( (Aeroporto a1, Aeroporto a2)
-				-> a1.getNome().compareTo(a2.getNome()));
-	};
+	public Aeroporto buscarPorCodigo(String cod){
+		return aeroporto.get(cod);
+	}
 	
-	public void ordenarCodigo() {
-		aeroportos.sort( (Aeroporto a1, Aeroporto a2)
-				-> a1.getCodigo().compareTo(a2.getCodigo()));
-	};
+	public Aeroporto buscarPorNome(String nome) {
+		return aeroporto.get(nome);
+	}
 	
-	public ArrayList<Aeroporto> listarTodos() {
-		return new ArrayList<>(aeroportos);			
+	public void carregaDados(GerenciadorPaises gerPais) throws IOException {
+
+		Path path2 = Paths.get("airports.dat");
+		try (Scanner sc = new Scanner(Files.newBufferedReader(path2, Charset.forName("utf8")))) {
+			sc.useDelimiter("[;\n]");
+			String header = sc.nextLine();
+			String codigo, latitude, longitude,nome,codigop;
+			Pais pais;
+			Geo geo;
+			while (sc.hasNext()) {
+				codigo = sc.next();
+				latitude = sc.next();
+				longitude = sc.next();	
+				nome = sc.next();
+				codigop = sc.next();
+				pais = gerPais.buscarPorCodigo(codigop);
+				geo = new Geo(Double.parseDouble(latitude),Double.parseDouble(longitude));				
+				Aeroporto nova = new Aeroporto(codigo,nome, geo, pais);
+				aeroporto.put(nova.getCodigo(),nova);
+			}
+		}
 	}
 }
+	
+	
+

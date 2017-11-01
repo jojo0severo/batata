@@ -31,15 +31,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import pucrs.myflight.modelojojo.Aeroporto;
-import pucrs.myflight.modelojojo.CiaAerea;
-import pucrs.myflight.modelojojo.Geo;
-import pucrs.myflight.modelojojo.GerenciadorAeronaves;
-import pucrs.myflight.modelojojo.GerenciadorAeroportos;
-import pucrs.myflight.modelojojo.GerenciadorCias;
-import pucrs.myflight.modelojojo.GerenciadorPaises;
-import pucrs.myflight.modelojojo.GerenciadorRotas;
-import pucrs.myflight.modelojojo.Rota;
+import pucrs.myflight.modelo.Aeroporto;
+import pucrs.myflight.modelo.CiaAerea;
+import pucrs.myflight.modelo.Geo;
+import pucrs.myflight.modelo.GerenciadorAeronaves;
+import pucrs.myflight.modelo.GerenciadorAeroportos;
+import pucrs.myflight.modelo.GerenciadorCias;
+import pucrs.myflight.modelo.GerenciadorPaises;
+import pucrs.myflight.modelo.GerenciadorRotas;
+import pucrs.myflight.modelo.Rota;
 
 public class JanelaFX extends Application {
 
@@ -125,6 +125,7 @@ public class JanelaFX extends Application {
 				// waypoints
 				
 				lstPoints.add(new MyWaypoint(Color.RED, aeroporigem.getCodigo(), aeroporigem.getLocal(), 5));
+				lstPoints.add(new MyWaypoint(Color.RED, aeropdestino.getCodigo(), aeropdestino.getLocal(), 5));
 
 				// Para obter um ponto clicado no mapa, usar como segue:
 				// GeoPosition pos = gerenciador.getPosicao();

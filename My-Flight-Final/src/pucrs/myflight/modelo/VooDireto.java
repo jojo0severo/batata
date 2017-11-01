@@ -1,4 +1,4 @@
-package pucrs.myflight.modelo;
+package pucrs.myflight.modelojojo;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -7,34 +7,39 @@ public class VooDireto extends Voo {
 
 	private Rota rota;
 
-	public VooDireto(LocalDateTime datahora, Rota rota) {
-		super(datahora);
+	public VooDireto(Rota rota, LocalDateTime datahora) {
+		super(rota, datahora);
 		this.rota = rota;
 	}
-	
-	public VooDireto(Rota r) {
-		super();
-		this.rota = r;
-	}
-	
+
 	@Override
 	public Rota getRota() {
+		// TODO Auto-generated method stub
 		return rota;
 	}
 
 	@Override
 	public Duration getDuracao() {
-		double dist = rota.getOrigem().getLocal()
-					.distancia(rota.getDestino().getLocal());
-		double tempo = dist/805 + 0.5;
-		return Duration.ofMinutes((int)(tempo*60));
+		long dist = 0;
+		dist = (long) (this.rota.getOrigem().getLocal().distancia(rota.getDestino().getLocal()) + 0.5);
+		return Duration.ofHours(dist);
 	}
-	
+
+	public String toString() {
+		String aux = super.toString() + "Duraçao" + getDuracao();
+		return aux;
+	}
+
 	@Override
-    public String toString() {		
-		String aux = super.toString()+" ("+getDuracao()+")";
-		aux += "\n    "+rota;
-		return aux;    
-    }
+	public LocalDateTime getDatahora() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Status getStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
