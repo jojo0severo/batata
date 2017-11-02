@@ -1,4 +1,4 @@
-package pucrs.myflight.modelojojo;
+package pucrs.myflight.modelo;
 
 import org.jxmapviewer.viewer.GeoPosition;
 

@@ -1,4 +1,4 @@
-package pucrs.myflight.modelojojo;
+package pucrs.myflight.modelo;
 
 public class Pais implements Comparable<Pais> {
 	private String nome;

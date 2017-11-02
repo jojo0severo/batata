@@ -8,17 +8,22 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.SwingUtilities;
+import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.viewer.GeoPosition;
 
 import javafx.application.Application;
+import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingNode;
 import javafx.geometry.Insets;
@@ -39,6 +44,7 @@ import pucrs.myflight.modelo.GerenciadorAeroportos;
 import pucrs.myflight.modelo.GerenciadorCias;
 import pucrs.myflight.modelo.GerenciadorPaises;
 import pucrs.myflight.modelo.GerenciadorRotas;
+import pucrs.myflight.modelo.Pais;
 import pucrs.myflight.modelo.Rota;
 
 public class JanelaFX extends Application {
@@ -52,7 +58,9 @@ public class JanelaFX extends Application {
 	private GerenciadorMapa gerenciador;
 	private EventosMouse mouse;
 	private ObservableList<CiaAerea> comboCiasData;
+	private ObservableList<Pais> comboPaisesData;
 	private ComboBox<CiaAerea> comboCia;
+	private ComboBox<Pais> comboPais;
 	private GerenciadorPaises gerPais;
 
 	@Override
@@ -60,45 +68,88 @@ public class JanelaFX extends Application {
 
 		setup();
 
-		GeoPosition poa = new GeoPosition(-30.05, -51.18);
-		gerenciador = new GerenciadorMapa(poa, GerenciadorMapa.FonteImagens.VirtualEarth);
-		mouse = new EventosMouse();
-		gerenciador.getMapKit().getMainMap().addMouseListener(mouse);
-		gerenciador.getMapKit().getMainMap().addMouseMotionListener(mouse);
+		/*//GeoPosition poa = new GeoPosition(-30.05, -51.18);
+		//gerenciador = new GerenciadorMapa(poa, GerenciadorMapa.FonteImagens.VirtualEarth);
+		//mouse = new EventosMouse();
+		//gerenciador.getMapKit().getMainMap().addMouseListener(mouse);
+		//gerenciador.getMapKit().getMainMap().addMouseMotionListener(mouse);
 
-		createSwingContent(mapkit);
+		//createSwingContent(mapkit);*/
 
-		BorderPane pane = new BorderPane();
-		GridPane leftPane = new GridPane();
+		/*//BorderPane pane = new BorderPane();*/
+		GridPane leftTopPane = new GridPane();
+		GridPane centerTopPane = new GridPane();
+		GridPane rightTopPane = new GridPane();
+		GridPane leftBottomPane = new GridPane();
+		GridPane centerBottomPane = new GridPane();
+		GridPane rightBottomPane = new GridPane();
 
-		leftPane.setAlignment(Pos.CENTER);
-		leftPane.setHgap(10);
-		leftPane.setVgap(10);
-		leftPane.setPadding(new Insets(10, 10, 10, 10));
-
-		Button btnConsulta = new Button("Consulta");
-		TextField origem = new TextField(); 
-		Label origemlabel = new Label("Digite o Aeroporto de Origem");
-		TextField destino = new TextField();
-		Label destinoLabel = new Label("Digite o Aeroporto de Destino");
+		leftTopPane.setAlignment(Pos.CENTER);
+		leftTopPane.setHgap(10);
+		leftTopPane.setVgap(10);
+		leftTopPane.setPadding(new Insets(10, 10, 10, 10));
 		
-		leftPane.add(origemlabel, 0, 0);
-		leftPane.add(origem, 0, 1);
-		leftPane.add(destinoLabel, 0, 2);
-		leftPane.add(destino, 0, 3);		
-		leftPane.add(btnConsulta, 1, 5);
+		centerTopPane.setAlignment(Pos.CENTER);
+		centerTopPane.setHgap(10);
+		centerTopPane.setVgap(10);
+		centerTopPane.setPadding(new Insets(10, 10, 10, 10));
+		                                                    
+		rightTopPane.setAlignment(Pos.CENTER);
+		rightTopPane.setHgap(10);
+		rightTopPane.setVgap(10);
+		rightTopPane.setPadding(new Insets(10, 10, 10, 10));
+		
+		leftBottomPane.setAlignment(Pos.CENTER);
+		leftBottomPane.setHgap(10);
+		leftBottomPane.setVgap(10);
+		leftBottomPane.setPadding(new Insets(10, 10, 10, 10));
+		
+		centerBottomPane.setAlignment(Pos.CENTER);
+		centerBottomPane.setHgap(10);
+		centerBottomPane.setVgap(10);
+		centerBottomPane.setPadding(new Insets(10, 10, 10, 10));
+		
+		rightBottomPane.setAlignment(Pos.CENTER);
+		rightBottomPane.setHgap(10);
+		rightBottomPane.setVgap(10);
+		rightBottomPane.setPadding(new Insets(10, 10, 10, 10));
 
-		btnConsulta.setOnAction(e -> {
-			consulta(origem.getText(), destino.getText());
+		
+		Button btnConsulta1 = new Button("Exercicio 1");
+		
+		Button btnConsulta2 = new Button("Exercicio 2");
+		Button btnConsulta3 = new Button("Exercicio 3");
+		Button btnConsulta4 = new Button("Exercicio 4");
+		Button btnConsulta5 = new Button("Exercicio 5");
+		Button btnConsulta6 = new Button("Exercicio 6");
+	
+		
+		
+		btnConsulta1.setOnAction(e -> {
+
 		});
+		btnConsulta2.setOnAction(e -> {
 
-		pane.setCenter(mapkit);
-		pane.setLeft(leftPane);
+		});
+		btnConsulta3.setOnAction(e -> {
 
-		Scene scene = new Scene(pane, 500, 500);
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Mapas com JavaFX");
-		primaryStage.show();
+		});
+		btnConsulta4.setOnAction(e -> {
+
+		});
+		btnConsulta5.setOnAction(e -> {
+
+		});
+		btnConsulta6.setOnAction(e -> {
+
+		});
+		
+		/*//pane.setCenter(mapkit);
+		//pane.setRight(rightBottomPane);		
+		//Scene scene = new Scene(pane, 500, 500);
+		//primaryStage.setScene(scene);
+		//primaryStage.setTitle("Mapas com JavaFX");
+		//primaryStage.show();*/
 
 	}
 
@@ -110,6 +161,9 @@ public class JanelaFX extends Application {
 				//Pega os aeroportos
 				Aeroporto aeroporigem = gerAero.buscarPorNome(origem);
 				Aeroporto aeropdestino = gerAero.buscarPorNome(destino);
+				System.out.println(aeroporigem);
+				System.out.println(aeropdestino);
+				
 				
 				gerenciador.clear();
 				Tracado tr = new Tracado();
@@ -139,7 +193,7 @@ public class JanelaFX extends Application {
 	//Kazan International Airport
 	// Inicializando os dados aqui...
 	private void setup() {
-
+		
 		gerCias = new GerenciadorCias();
 		gerAero = new GerenciadorAeroportos();
 		gerRotas = new GerenciadorRotas();
@@ -227,5 +281,9 @@ public class JanelaFX extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
+	}
+	public ObservableList<Pais> ObservableListPaises(){
+		return FXCollections.observableList(gerPais.listarTodos());
+
 	}
 }

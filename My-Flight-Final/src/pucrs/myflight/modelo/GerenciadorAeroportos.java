@@ -1,4 +1,4 @@
-package pucrs.myflight.modelojojo;
+package pucrs.myflight.modelo;
 
 
 
@@ -36,7 +36,12 @@ public class GerenciadorAeroportos {
 	}
 	
 	public Aeroporto buscarPorNome(String nome) {
-		return aeroporto.get(nome);
+		for(Aeroporto aero: aeroporto.values()){
+			if(aero.getNome().equals(nome)){
+				return aero;
+			}
+		}
+		return null;
 	}
 	
 	public void carregaDados(GerenciadorPaises gerPais) throws IOException {

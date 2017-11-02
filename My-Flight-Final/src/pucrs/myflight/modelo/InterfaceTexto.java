@@ -1,4 +1,4 @@
-package pucrs.myflight.modelojojo;
+package pucrs.myflight.modelo;
 
 public class InterfaceTexto {
 	private GerenciadorCias gerCia;

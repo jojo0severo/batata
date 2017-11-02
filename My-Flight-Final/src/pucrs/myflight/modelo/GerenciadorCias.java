@@ -1,5 +1,4 @@
-
-package pucrs.myflight.modelojojo;
+package pucrs.myflight.modelo;
 
 import java.io.IOException;
 import java.nio.charset.Charset;

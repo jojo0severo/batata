@@ -1,4 +1,4 @@
-package pucrs.myflight.modelojojo;
+package pucrs.myflight.modelo;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -26,7 +26,7 @@ public class VooDireto extends Voo {
 	}
 
 	public String toString() {
-		String aux = super.toString() + "Duraçao" + getDuracao();
+		String aux = super.toString() + "Duraï¿½ao" + getDuracao();
 		return aux;
 	}
 

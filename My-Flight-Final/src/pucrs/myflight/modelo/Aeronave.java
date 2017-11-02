@@ -1,4 +1,4 @@
-package pucrs.myflight.modelojojo;
+package pucrs.myflight.modelo;
 
 public class Aeronave implements imprimivel, Contavel, Comparable<Aeronave> {
 	private String codigo;
