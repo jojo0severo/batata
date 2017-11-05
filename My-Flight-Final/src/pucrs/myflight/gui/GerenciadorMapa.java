@@ -49,8 +49,9 @@ public class GerenciadorMapa {
 	private double deltaldp;
 
 	private Font font;
-	
-	private boolean useGeodesic; // true = desenha linhas geodésicas de um ponto a outro, false = desenha linhas simples
+
+	private boolean useGeodesic; // true = desenha linhas geodésicas de um ponto a outro, false = desenha linhas
+									// simples
 
 	public enum FonteImagens {
 
@@ -96,7 +97,7 @@ public class GerenciadorMapa {
 		deltaldp = wxmax - wxmin;
 
 		font = new Font("Sans", Font.PLAIN, 20);
-		
+
 		useGeodesic = true;
 
 		// Criando um objeto para "pintar" os pontos
@@ -144,32 +145,32 @@ public class GerenciadorMapa {
 
 			@Override
 			public void paint(Graphics2D g, JXMapViewer map, int w, int h) {
-				
+
 				for (Tracado tr : linhas) {
 					ArrayList<Geo> pontos = tr.getPontos();
 					Color cor = tr.getCor();
 					int x[] = new int[pontos.size()];
 					int y[] = new int[pontos.size()];
-					
+
 					Point2D p0 = map.convertGeoPositionToPoint(pontos.get(0));
 					Point2D p1 = map.convertGeoPositionToPoint(pontos.get(1));
-					
-					int xmid = (int)(p0.getX() + p1.getX()) / 2;
-					int ymid = (int)(p0.getY() + p1.getY()) / 2;
+
+					int xmid = (int) (p0.getX() + p1.getX()) / 2;
+					int ymid = (int) (p0.getY() + p1.getY()) / 2;
 					g.setColor(Color.RED);
 
 					// Desenha label no primeiro trecho da rota
 					// Muito lento e polui demais a tela se houver muitas rotas
-					
-//					int dx = (int) (p0.getX() - p1.getX());
-//					int dy = (int) (p0.getY() - p1.getY());
-//					double theta = Math.atan2(dx, dy);
-//					g.translate(xmid, ymid);
-//				    g.rotate(theta);
-//				    g.drawString(tr.getLabel(), xmid, ymid);
-//				    g.rotate(-theta);
-//				    g.translate(-xmid,-ymid);									
-					
+
+					// int dx = (int) (p0.getX() - p1.getX());
+					// int dy = (int) (p0.getY() - p1.getY());
+					// double theta = Math.atan2(dx, dy);
+					// g.translate(xmid, ymid);
+					// g.rotate(theta);
+					// g.drawString(tr.getLabel(), xmid, ymid);
+					// g.rotate(-theta);
+					// g.translate(-xmid,-ymid);
+
 					for (int i = 0; i < pontos.size(); i++) {
 						Point2D point = map.convertGeoPositionToPoint(pontos.get(i));
 						x[i] = (int) point.getX();
@@ -227,10 +228,10 @@ public class GerenciadorMapa {
 	public void setPosicao(GeoPosition sel) {
 		this.selCentro = sel;
 	}
-	
+
 	/*
-	 * Informa se desejamos desenhar as linhas
-	 * com arcos (true) ou linhas comuns (false)
+	 * Informa se desejamos desenhar as linhas com arcos (true) ou linhas comuns
+	 * (false)
 	 */
 	public void setArcos(boolean g) {
 		this.useGeodesic = true;
@@ -259,15 +260,14 @@ public class GerenciadorMapa {
 	}
 
 	/*
-	 * Adiciona um novo traçado ao mapa (o traçado tem um conjunto de pontos e
-	 * uma cor)
+	 * Adiciona um novo traçado ao mapa (o traçado tem um conjunto de pontos e uma
+	 * cor)
 	 */
 	public void addTracado(Tracado tr) {
-		if(!useGeodesic)
-		{
+		if (!useGeodesic) {
 			linhas.add(tr);
 			return;
-		}			
+		}
 		Geodesic geod = Geodesic.WGS84;
 		Tracado novo = new Tracado();
 		novo.setWidth(tr.getWidth());
@@ -279,22 +279,22 @@ public class GerenciadorMapa {
 			double lat2 = pontos.get(pos + 1).getLatitude();
 			double lon1 = pontos.get(pos).getLongitude();
 			double lon2 = pontos.get(pos + 1).getLongitude();
-						
-//			if(Math.abs(lon1-lon2)>180) continue;
+
+			// if(Math.abs(lon1-lon2)>180) continue;
 			GeodesicLine line = geod.InverseLine(lat1, lon1, lat2, lon2,
 					GeodesicMask.DISTANCE_IN | GeodesicMask.LATITUDE | GeodesicMask.LONGITUDE);
 			double ds0 = 200e3; // Nominal distance between points = 200 km
 			// The number of intervals
 			int num = (int) (Math.ceil(line.Distance() / ds0));
 			// Slightly faster, use intervals of equal arc length
-			double da = line.Arc() / num;			
+			double da = line.Arc() / num;
 			for (int i = 0; i <= num; ++i) {
 				GeodesicData g = line.ArcPosition(i * da, GeodesicMask.LATITUDE | GeodesicMask.LONGITUDE);
-				if(Math.abs(g.lon1-g.lon2)>180) continue;
+				if (Math.abs(g.lon1 - g.lon2) > 180)
+					continue;
 				novo.addPonto(new Geo(g.lat2, g.lon2));
-				//System.out.println(i + " " + g.lat2 + " " + g.lon2);
 			}
-		}		
+		}
 		linhas.add(novo);
 	}
 
@@ -313,8 +313,8 @@ public class GerenciadorMapa {
 	}
 
 	/*
-	 * Retorna a referência ao objeto JXMapKit, para ajuste de parâmetros (se
-	 * for o caso)
+	 * Retorna a referência ao objeto JXMapKit, para ajuste de parâmetros (se for
+	 * o caso)
 	 * 
 	 * @returns referência para objeto JXMapKit em uso
 	 */
