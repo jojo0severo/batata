@@ -105,17 +105,17 @@ public class JanelaFX extends Application {
 
 		// Primeiro exercicio
 		Text selecionar = new Text("Selecione o pais");
-		//comboPais = new ComboBox(ObservableListPaises());
+		comboPais = new ComboBox(ObservableListPaises());
 
 		Button btnConsulta1 = new Button("Exercicio 1");
 		btnConsulta1.setOnAction(e ->{
-			exercicio1();
-			// exercicio1(comboPais.getValue());
+			//exercicio1();
+			exercicio1(comboPais.getValue());
 		});		
 
 		// monta no GridPane
 		leftTopPane.add(selecionar, 0, 0);
-		//leftTopPane.add(comboPais, 1, 0);
+		leftTopPane.add(comboPais, 1, 0);
 		leftTopPane.add(btnConsulta1, 0, 1);
 
 		Button btnConsulta2 = new Button("Exercicio 2");
@@ -232,15 +232,15 @@ public class JanelaFX extends Application {
 
 	// Exercicios
 
-	private void exercicio1() {
-		GeoPosition pos = gerenciador.getPosicao();
-		Pais pais = new Pais("NaoEncontrado", "NaoEncontrado");
+	private void exercicio1(Pais pais) {
+		//GeoPosition pos = gerenciador.getPosicao();
+		//Pais pais = new Pais("NaoEncontrado", "NaoEncontrado");
 
-		for (Aeroporto aero : gerAero.listarTodos().values()) {
-			if (aero.getLocal().equals(pos)) {
-				pais = aero.getPais();
-			}
-		}
+		//for (Aeroporto aero : gerAero.listarTodos().values()) {
+		//	if (aero.getLocal().equals(pos)) {
+			//	pais = aero.getPais();
+			//}
+		//}
 
 		if (pais.getCodigo().equals("NaoEncontrado")) {
 			System.out.println("Local não Encontrado");
@@ -251,9 +251,10 @@ public class JanelaFX extends Application {
 			gerenciador.clear();
 
 			for (Aeroporto aeroporto : gerAero.listarTodos().values()) {
+				System.out.println(aeroporto.getPais());
 				if (aeroporto.getPais().equals(pais)) {
 					// adiciona os pontos
-					lstPoints.add(new MyWaypoint(Color.RED, aeroporto.getNome(), aeroporto.getLocal(), 5));
+					lstPoints.add(new MyWaypoint(Color.RED, aeroporto.getNome(), aeroporto.getLocal(), 1));
 				}
 			}
 

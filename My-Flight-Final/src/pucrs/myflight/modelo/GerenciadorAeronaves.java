@@ -56,7 +56,7 @@ public class GerenciadorAeronaves {
 			while (sc.hasNext()) {
 				id = sc.next();
 				descricao = sc.next();
-				capacidade = sc.next();
+				capacidade = sc.next().replaceAll("\r", "");
 				int cap = Integer.valueOf(capacidade);
 				Aeronave nova = new Aeronave(id, descricao, cap);
 				aero.put(id, nova);
