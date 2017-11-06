@@ -59,7 +59,7 @@ public class GerenciadorAeroportos {
 				longitude = sc.next();	
 				nome = sc.next();
 				codigop = sc.next();
-				pais = gerPais.buscarPorCodigo(codigop);
+				pais = gerPais.buscarPorCodigo(codigop.replaceAll("\r", ""));
 				geo = new Geo(Double.parseDouble(latitude),Double.parseDouble(longitude));				
 				Aeroporto nova = new Aeroporto(codigo,nome, geo, pais);
 				aeroporto.put(nova.getCodigo(),nova);

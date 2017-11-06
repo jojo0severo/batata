@@ -83,7 +83,7 @@ public class GerenciadorRotas {
 				destino = sc.next();
 				nada = sc.next();
 				paradas = sc.next();
-				aeronave = sc.next();
+				aeronave = sc.next().replaceAll("\r", "");
 				Paradas = Integer.valueOf(paradas);
 				Rota nova = new Rota(gerCia.buscarCod(cia),gerAerop.buscarPorCodigo(origem),Paradas, gerAerop.buscarPorCodigo(destino),gerAerov.buscarporCodigo(aeronave));
 				rotas.add(nova);				

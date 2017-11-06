@@ -72,7 +72,7 @@ public class GerenciadorPaises {
 			String codigo, nome;
 			while (sc.hasNext()) {
 				codigo = sc.next();
-				nome = sc.next();
+				nome = sc.next().replaceAll("\r", "");
 				Pais novo = new Pais(codigo, nome);
 				paises.put(codigo, novo);
 				System.out.println(codigo + "    -    " + nome);

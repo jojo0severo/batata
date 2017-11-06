@@ -54,7 +54,7 @@ public class GerenciadorCias {
 			String codigo, nome;
 			while (sc.hasNext()) {
 				codigo = sc.next();
-				nome = sc.next();
+				nome = sc.next().replaceAll("\r", "");
 				CiaAerea nova = new CiaAerea(codigo, nome);
 				empresas.put(codigo,nova);
 				System.out.println(codigo +"    -    "+  nome);
