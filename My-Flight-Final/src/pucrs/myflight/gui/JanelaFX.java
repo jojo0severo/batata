@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.synth.SynthSeparatorUI;
+
+import javafx.scene.control.*;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.viewer.GeoPosition;
 import javafx.application.Application;
@@ -26,10 +28,6 @@ import javafx.embed.swing.SwingNode;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -118,11 +116,22 @@ public class JanelaFX extends Application {
 		// leftTopPane.add(comboPais, 1, 0);
 		leftTopPane.add(btnConsulta1, 0, 1);
 
+
 		Button btnConsulta2 = new Button("Exercicio 2");
 		Button btnConsulta3 = new Button("Exercicio 3");
 		Button btnConsulta4 = new Button("Exercicio 4");
 		Button btnConsulta5 = new Button("Exercicio 5");
 		Button btnConsulta6 = new Button("Exercicio 6");
+		Button btnAviso = new Button("Mostrar diálogo de aviso");
+		//Erro
+		btnAviso.setOnAction(e -> {
+			Alert dialogoErro = new Alert(Alert.AlertType.ERROR);
+			dialogoErro.setTitle("Diálogo de Error");
+			dialogoErro.setHeaderText("Esse é o cabeçalho...");
+			dialogoErro.setContentText("UM ERROR!!! UM ERRO ACONTECEU!!! GEZUIS!");
+			dialogoErro.showAndWait();
+		});
+
 
 		btnConsulta2.setOnAction(e -> {
 
@@ -234,42 +243,54 @@ public class JanelaFX extends Application {
 
 	private void exercicio1() {
 		GeoPosition paisLoc = gerenciador.getPosicao();
-		Pais pais = null;
-		// Lista para armazenar o resultado da consulta
-		List<MyWaypoint> lstPoints = new ArrayList<>();
+		if(paisLoc!=null) {
+			Pais pais = null;
+			// Lista para armazenar o resultado da consulta
+			List<MyWaypoint> lstPoints = new ArrayList<>();
 
-		double ds0 = 5;
+			double ds0 = 5;
 
-		double longiMais = Math.ceil(paisLoc.getLongitude() + ds0);
-		double longiMenos = Math.ceil(paisLoc.getLongitude() - ds0);
+			double longiMais = Math.ceil(paisLoc.getLongitude() + ds0);
+			double longiMenos = Math.ceil(paisLoc.getLongitude() - ds0);
 
-		double latiMais = Math.ceil(paisLoc.getLatitude() + ds0);
-		double latiMenos = Math.ceil(paisLoc.getLatitude() - ds0);
+			double latiMais = Math.ceil(paisLoc.getLatitude() + ds0);
+			double latiMenos = Math.ceil(paisLoc.getLatitude() - ds0);
 
-		gerenciador.clear();
+			gerenciador.clear();
 
-		for (Aeroporto aeroporto : gerAero.listarTodos().values()) {
-			System.out.println(aeroporto.getPais());
-			if ((aeroporto.getLocal().getLatitude() == paisLoc.getLatitude()
-					|| (aeroporto.getLocal().getLatitude() < latiMais
-							&& aeroporto.getLocal().getLatitude() > latiMenos))
-					&& (aeroporto.getLocal().getLongitude() == paisLoc.getLongitude()
-							|| (aeroporto.getLocal().getLongitude() < longiMais
-									&& aeroporto.getLocal().getLongitude() > longiMenos))) {
-				pais = aeroporto.getPais();
-				break;
+			for (Aeroporto aeroporto : gerAero.listarTodos().values()) {
+				System.out.println(aeroporto.getPais());
+				if ((aeroporto.getLocal().getLatitude() == paisLoc.getLatitude()
+						|| (aeroporto.getLocal().getLatitude() < latiMais
+								&& aeroporto.getLocal().getLatitude() > latiMenos))
+						&& (aeroporto.getLocal().getLongitude() == paisLoc.getLongitude()
+								|| (aeroporto.getLocal().getLongitude() < longiMais
+										&& aeroporto.getLocal().getLongitude() > longiMenos))) {
+					pais = aeroporto.getPais();
+					break;
+				}
 			}
-		}
 
-		for (Aeroporto aeroporto : gerAero.listarTodos().values()) {
-			if (aeroporto.getPais().equals(pais)) {
-				// adiciona os pontos
-				lstPoints.add(new MyWaypoint(Color.RED, aeroporto.getNome(), aeroporto.getLocal(), 1));
+			for (Aeroporto aeroporto : gerAero.listarTodos().values()) {
+				if (aeroporto.getPais().equals(pais)) {
+					// adiciona os pontos
+					lstPoints.add(new MyWaypoint(Color.RED, aeroporto.getNome(), aeroporto.getLocal(), 1));
+				}
 			}
-		}
 		// Informa o resultado para o gerenciador
 		gerenciador.setPontos(lstPoints);
 		gerenciador.getMapKit().repaint();
+
+		}
+		else{
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("Nenhum país selecionado.");
+			alert.setHeaderText("Nenhuma região do mapa foi selecionada.");
+			alert.setContentText("Por favor, selecione algum lugar no mapa e tente novamente.");
+
+			alert.showAndWait();
+			System.out.println("passou aqui");
+		}
 
 	}
 }
