@@ -105,17 +105,17 @@ public class JanelaFX extends Application {
 
 		// Primeiro exercicio
 		Text selecionar = new Text("Selecione o pais");
-		comboPais = new ComboBox(ObservableListPaises());
+		// comboPais = new ComboBox(ObservableListPaises());
 
 		Button btnConsulta1 = new Button("Exercicio 1");
-		btnConsulta1.setOnAction(e ->{
-			//exercicio1();
-			exercicio1(comboPais.getValue());
-		});		
+		btnConsulta1.setOnAction(e -> {
+			exercicio1();
+			// exercicio1(comboPais.getValue());
+		});
 
 		// monta no GridPane
 		leftTopPane.add(selecionar, 0, 0);
-		leftTopPane.add(comboPais, 1, 0);
+		// leftTopPane.add(comboPais, 1, 0);
 		leftTopPane.add(btnConsulta1, 0, 1);
 
 		Button btnConsulta2 = new Button("Exercicio 2");
@@ -216,11 +216,11 @@ public class JanelaFX extends Application {
 		// organiza os gridpanes
 		GridPane pane = new GridPane();
 		pane.add(leftTopPane, 0, 0);
-		pane.add(centerTopPane, 1, 0);
-		pane.add(rightTopPane, 2, 0);
-		pane.add(leftBottomPane, 0, 1);
-		pane.add(centerBottomPane, 1, 1);
-		pane.add(rightBottomPane, 2, 1);
+		 pane.add(centerTopPane, 1, 0);
+		 pane.add(rightTopPane, 2, 0);
+		 pane.add(leftBottomPane, 0, 1);
+		 pane.add(centerBottomPane, 1, 1);
+		 pane.add(rightBottomPane, 2, 1);
 		pane.add(mapkit, 0, 2);
 
 		// cria e inicia a scene
@@ -232,38 +232,44 @@ public class JanelaFX extends Application {
 
 	// Exercicios
 
-	private void exercicio1(Pais pais) {
-		//GeoPosition pos = gerenciador.getPosicao();
-		//Pais pais = new Pais("NaoEncontrado", "NaoEncontrado");
+	private void exercicio1() {
+		GeoPosition paisLoc = gerenciador.getPosicao();
+		Pais pais = null;
+		// Lista para armazenar o resultado da consulta
+		List<MyWaypoint> lstPoints = new ArrayList<>();
 
-		//for (Aeroporto aero : gerAero.listarTodos().values()) {
-		//	if (aero.getLocal().equals(pos)) {
-			//	pais = aero.getPais();
-			//}
-		//}
+		double ds0 = 5;
 
-		if (pais.getCodigo().equals("NaoEncontrado")) {
-			System.out.println("Local não Encontrado");
-		} else {
-			// Lista para armazenar o resultado da consulta
-			List<MyWaypoint> lstPoints = new ArrayList<>();
+		double longiMais = Math.ceil(paisLoc.getLongitude() + ds0);
+		double longiMenos = Math.ceil(paisLoc.getLongitude() - ds0);
 
-			gerenciador.clear();
+		double latiMais = Math.ceil(paisLoc.getLatitude() + ds0);
+		double latiMenos = Math.ceil(paisLoc.getLatitude() - ds0);
 
-			for (Aeroporto aeroporto : gerAero.listarTodos().values()) {
-				System.out.println(aeroporto.getPais());
-				if (aeroporto.getPais().equals(pais)) {
-					// adiciona os pontos
-					lstPoints.add(new MyWaypoint(Color.RED, aeroporto.getNome(), aeroporto.getLocal(), 1));
-				}
+		gerenciador.clear();
+
+		for (Aeroporto aeroporto : gerAero.listarTodos().values()) {
+			System.out.println(aeroporto.getPais());
+			if ((aeroporto.getLocal().getLatitude() == paisLoc.getLatitude()
+					|| (aeroporto.getLocal().getLatitude() < latiMais
+							&& aeroporto.getLocal().getLatitude() > latiMenos))
+					&& (aeroporto.getLocal().getLongitude() == paisLoc.getLongitude()
+							|| (aeroporto.getLocal().getLongitude() < longiMais
+									&& aeroporto.getLocal().getLongitude() > longiMenos))) {
+				pais = aeroporto.getPais();
+				break;
 			}
-
-			// Para obter um ponto clicado no mapa, usar como segue:
-			// GeoPosition pos = gerenciador.getPosicao();
-
-			// Informa o resultado para o gerenciador
-			gerenciador.setPontos(lstPoints);
-			gerenciador.getMapKit().repaint();
 		}
+
+		for (Aeroporto aeroporto : gerAero.listarTodos().values()) {
+			if (aeroporto.getPais().equals(pais)) {
+				// adiciona os pontos
+				lstPoints.add(new MyWaypoint(Color.RED, aeroporto.getNome(), aeroporto.getLocal(), 1));
+			}
+		}
+		// Informa o resultado para o gerenciador
+		gerenciador.setPontos(lstPoints);
+		gerenciador.getMapKit().repaint();
+
 	}
 }
