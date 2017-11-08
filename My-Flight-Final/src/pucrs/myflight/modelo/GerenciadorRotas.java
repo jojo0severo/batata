@@ -28,19 +28,21 @@ public class GerenciadorRotas {
 		return copia;
 	}
 
-	public void adicionarAeroportosParaAsRotas(){
-		for(Rota r: listarTodas()) {
-			Set<Rota> set = new HashSet<Rota>();
-			Aeroporto aux = r.getOrigem();
-			if(rotasAerop.containsKey(r)) {
-				for(Aeroporto aero: rotasAerop.keySet()) {
-					if(aero.equals(aux)) {
-						set.add(r);
-					}
+	public HashMap<Aeroporto, Set<Rota>> getHashMap(){
+		return rotasAerop;
+	}
+	
+	public void adicionarAeroportosParaAsRotas(Rota nova, GerenciadorAeroportos gerAerop){
+		Set<Rota> set = new HashSet<Rota>();
+		Aeroporto aux = nova.getOrigem();
+		if(rotasAerop.containsKey(nova)) {
+			for(Aeroporto aero: gerAerop.listarTodosArray()) {
+				if(aero.equals(aux)) {
+					set.add(nova);
 				}
-				rotasAerop.put(aux, set);					
 			}
-		}		
+			rotasAerop.put(aux, set);					
+		}
 	}
 
 	public ArrayList<Rota> buscarPorOrigem(Aeroporto aero) {
@@ -100,15 +102,13 @@ public class GerenciadorRotas {
 				aeronave = sc.next().replaceAll("\r", "");
 				Paradas = Integer.valueOf(paradas);
 				Rota nova = new Rota(gerCia.buscarCod(cia),gerAerop.buscarPorCodigo(origem),Paradas, gerAerop.buscarPorCodigo(destino),gerAerov.buscarporCodigo(aeronave));
-				rotas.add(nova);	
-				
+				rotas.add(nova);				
+				adicionarAeroportosParaAsRotas(nova,gerAerop);				
 				//System.out.println(cia +"    -    "+  origem+"    -    "+destino+"    -    "+aeronave);
 			}
 		} catch (IOException e) {
 			System.err.format("Erro de E/S: %s%n", e);
-		}
-		adicionarAeroportosParaAsRotas();
-		
+		}		
 	}
 }
 
