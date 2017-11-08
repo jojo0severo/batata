@@ -69,42 +69,13 @@ public class JanelaFX extends Application {
 
 		setup();
 
-		GridPane leftTopPane = new GridPane();
-		GridPane centerTopPane = new GridPane();
-		GridPane rightTopPane = new GridPane();
-		GridPane leftBottomPane = new GridPane();
-		GridPane centerBottomPane = new GridPane();
-		GridPane rightBottomPane = new GridPane();
+		GridPane buttonsPane = new GridPane();
 
-		leftTopPane.setAlignment(Pos.CENTER);
-		leftTopPane.setHgap(10);
-		leftTopPane.setVgap(10);
-		leftTopPane.setPadding(new Insets(10, 10, 10, 10));
+		buttonsPane.setAlignment(Pos.CENTER);
+		buttonsPane.setHgap(10);
+		buttonsPane.setVgap(20);
+		buttonsPane.setPadding(new Insets(10, 10, 10, 10));
 
-		centerTopPane.setAlignment(Pos.CENTER);
-		centerTopPane.setHgap(10);
-		centerTopPane.setVgap(10);
-		centerTopPane.setPadding(new Insets(10, 10, 10, 10));
-
-		rightTopPane.setAlignment(Pos.CENTER);
-		rightTopPane.setHgap(10);
-		rightTopPane.setVgap(10);
-		rightTopPane.setPadding(new Insets(10, 10, 10, 10));
-
-		leftBottomPane.setAlignment(Pos.CENTER);
-		leftBottomPane.setHgap(10);
-		leftBottomPane.setVgap(10);
-		leftBottomPane.setPadding(new Insets(10, 10, 10, 10));
-
-		centerBottomPane.setAlignment(Pos.CENTER);
-		centerBottomPane.setHgap(10);
-		centerBottomPane.setVgap(10);
-		centerBottomPane.setPadding(new Insets(10, 10, 10, 10));
-
-		rightBottomPane.setAlignment(Pos.CENTER);
-		rightBottomPane.setHgap(10);
-		rightBottomPane.setVgap(10);
-		rightBottomPane.setPadding(new Insets(10, 10, 10, 10));
 
 		// Primeiro exercicio
 		Text selecionar = new Text("Selecione o pais");
@@ -120,10 +91,12 @@ public class JanelaFX extends Application {
 		});
 
 		// Terceiro Exercicio
-		Text boniteza = new Text("Informe a distancia máxima das rotas");
-		TextField distancia = new TextField();
-		Text boniteza2 = new Text("Selecione o aeroporto que deseja buscar");
-		comboAeroporto = new ComboBox(ObservableListAeroportos());
+		
+//Tem que ir para a janela ->
+//		Text boniteza = new Text("Informe a distancia máxima das rotas");
+//		TextField distancia = new TextField();
+//		Text boniteza2 = new Text("Selecione o aeroporto que deseja buscar");
+//		comboAeroporto = new ComboBox(ObservableListAeroportos());  <--- Tem que ir para a janela
 		Button btnConsulta3 = new Button("Exercicio 3");
 		btnConsulta3.setOnAction(e -> {
 			exercicio3(comboAeroporto.getValue(), distancia.getText());
@@ -136,7 +109,6 @@ public class JanelaFX extends Application {
 			System.out.println("setou");//POR QUE RAIOS NAO ENTRA AQUI ESSA MERDA???????
 			exercicio4();
 		});
-		
 		
 		Button btnConsulta5 = new Button("Exercicio 5");
 		Button btnConsulta6 = new Button("Exercicio 6");
@@ -154,27 +126,19 @@ public class JanelaFX extends Application {
 
 		});
 
-		// Monta o GridPane do Exercicio 1
-		leftTopPane.add(selecionar, 0, 0);
-		leftTopPane.add(btnConsulta1, 0, 1);
-
-		// Monta o GridPane do Exercicio 2
-		centerTopPane.add(btnConsulta2, 1, 0);
-
-		// Monta o GridPane do Exercicio 3
-		rightTopPane.add(boniteza, 0, 0);
-		rightTopPane.add(distancia, 0, 1);
-		rightTopPane.add(boniteza2, 0, 2);
-		rightTopPane.add(comboAeroporto, 0, 3);
-		rightTopPane.add(btnConsulta3, 0, 4);
-
-		// Monta o GridPane do Exercicio 4
-		leftBottomPane.add(btnConsulta4, 0, 0);
-
+		// Monta o GridPane
+		buttonsPane.add(selecionar, 0, 0);
+		buttonsPane.add(btnConsulta1, 0, 1);
+		buttonsPane.add(btnConsulta2, 0, 2);
+		buttonsPane.add(boniteza, 0, 3);
+		buttonsPane.add(distancia, 0, 4);
+		buttonsPane.add(boniteza2, 0, 5);
+		buttonsPane.add(comboAeroporto, 0, 6);
+		buttonsPane.add(btnConsulta3, 0, 7);
+		buttonsPane.add(btnConsulta4, 0, 8);
 
 		// chama o construtor da scene
-		constroiScene(leftTopPane, leftBottomPane, rightTopPane, rightBottomPane, centerTopPane, centerBottomPane,
-				primaryStage);
+		constroiScene(buttonsPane, primaryStage);
 
 	}
 
@@ -240,8 +204,7 @@ public class JanelaFX extends Application {
 	}
 
 
-	public void constroiScene(GridPane leftTopPane, GridPane leftBottomPane, GridPane rightTopPane,
-			GridPane rightBottomPane, GridPane centerTopPane, GridPane centerBottomPane, Stage primaryStage) {
+	public void constroiScene(GridPane leftTopPane, Stage primaryStage) {
 		GeoPosition poa = new GeoPosition(-30.05, -51.18);
 
 		gerenciador = new GerenciadorMapa(poa, GerenciadorMapa.FonteImagens.VirtualEarth);
@@ -251,14 +214,9 @@ public class JanelaFX extends Application {
 		createSwingContent(mapkit);
 
 		// organiza os gridpanes
-		GridPane pane = new GridPane();
-		pane.add(leftTopPane, 0, 0);
-		pane.add(centerTopPane, 1, 0);
-		pane.add(rightTopPane, 2, 0);
-		pane.add(leftBottomPane, 0, 1);
-		pane.add(centerBottomPane, 1, 1);
-		pane.add(rightBottomPane, 2, 1);
-		pane.add(mapkit,2,1);
+		BorderPane pane = new BorderPane();
+		pane.setLeft(leftTopPane);
+		pane.setCenter(mapkit);
 
 		// cria e inicia a scene
 		Scene scene = new Scene(pane, 500, 500);
