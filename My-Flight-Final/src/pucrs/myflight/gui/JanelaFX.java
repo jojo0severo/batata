@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.synth.SynthSeparatorUI;
+
+import javafx.scene.control.*;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.viewer.GeoPosition;
 import javafx.application.Application;
@@ -26,10 +28,6 @@ import javafx.embed.swing.SwingNode;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -105,28 +103,46 @@ public class JanelaFX extends Application {
 
 		// Primeiro exercicio
 		Text selecionar = new Text("Selecione o pais");
-		comboPais = new ComboBox(ObservableListPaises());
+		// comboPais = new ComboBox(ObservableListPaises());
 
 		Button btnConsulta1 = new Button("Exercicio 1");
-		btnConsulta1.setOnAction(e ->{
-			//exercicio1();
-			exercicio1(comboPais.getValue());
-		});		
-
-		// monta no GridPane
-		leftTopPane.add(selecionar, 0, 0);
-		leftTopPane.add(comboPais, 1, 0);
-		leftTopPane.add(btnConsulta1, 0, 1);
+		btnConsulta1.setOnAction(e -> {
+			exercicio1();
+			// exercicio1(comboPais.getValue());
+		});
 
 		Button btnConsulta2 = new Button("Exercicio 2");
+		btnConsulta2.setOnAction(e -> {
+			exercicio2();
+		});
+		// monta no GridPane
+		leftTopPane.add(selecionar, 0, 0);
+		// leftTopPane.add(comboPais, 1, 0);
+		leftTopPane.add(btnConsulta1, 0, 1);
+
+		leftTopPane.add(btnConsulta2, 1, 0);
+
+
+
 		Button btnConsulta3 = new Button("Exercicio 3");
 		Button btnConsulta4 = new Button("Exercicio 4");
 		Button btnConsulta5 = new Button("Exercicio 5");
 		Button btnConsulta6 = new Button("Exercicio 6");
-
-		btnConsulta2.setOnAction(e -> {
-
+		Button btnAviso = new Button("Mostrar diálogo de aviso");
+		//Erro
+		btnAviso.setOnAction(e -> {
+			Alert dialogoErro = new Alert(Alert.AlertType.ERROR);
+			dialogoErro.setTitle("Diálogo de Error");
+			dialogoErro.setHeaderText("Esse é o cabeçalho...");
+			dialogoErro.setContentText("UM ERROR!!! UM ERRO ACONTECEU!!! GEZUIS!");
+			dialogoErro.showAndWait();
 		});
+
+
+
+
+
+
 		btnConsulta3.setOnAction(e -> {
 
 		});
@@ -216,12 +232,13 @@ public class JanelaFX extends Application {
 		// organiza os gridpanes
 		GridPane pane = new GridPane();
 		pane.add(leftTopPane, 0, 0);
-		pane.add(centerTopPane, 1, 0);
-		pane.add(rightTopPane, 2, 0);
-		pane.add(leftBottomPane, 0, 1);
-		pane.add(centerBottomPane, 1, 1);
-		pane.add(rightBottomPane, 2, 1);
-		pane.add(mapkit, 0, 2);
+		 pane.add(centerTopPane, 1, 0);
+		 pane.add(rightTopPane, 2, 0);
+		 pane.add(leftBottomPane, 0, 1);
+		 pane.add(centerBottomPane, 1, 1);
+		 pane.add(rightBottomPane, 2, 1);
+		 pane.addRow(3, mapkit);
+		 	//pane.add(mapkit, 3, 1);
 
 		// cria e inicia a scene
 		Scene scene = new Scene(pane, 500, 500);
@@ -232,41 +249,124 @@ public class JanelaFX extends Application {
 
 	// Exercicios
 
-	private void exercicio1(Pais pais) {
-		//GeoPosition pos = gerenciador.getPosicao();
-		//Pais pais = new Pais("NaoEncontrado", "NaoEncontrado");
 
-		//for (Aeroporto aero : gerAero.listarTodos().values()) {
-		//	if (aero.getLocal().equals(pos)) {
-			//	pais = aero.getPais();
-			//}
-		//}
-
-		if (pais.getCodigo().equals("NaoEncontrado")) {
-			System.out.println("Local n�o Encontrado");
-		} else {
+	private void exercicio1() {
+		GeoPosition paisLoc = gerenciador.getPosicao();
+		if(paisLoc!=null) {
+			Pais pais = null;
 			// Lista para armazenar o resultado da consulta
 			List<MyWaypoint> lstPoints = new ArrayList<>();
+
+			double ds0 = 5;
+
+			double longiMais = Math.ceil(paisLoc.getLongitude() + ds0);
+			double longiMenos = Math.ceil(paisLoc.getLongitude() - ds0);
+
+			double latiMais = Math.ceil(paisLoc.getLatitude() + ds0);
+			double latiMenos = Math.ceil(paisLoc.getLatitude() - ds0);
 
 			gerenciador.clear();
 
 			for (Aeroporto aeroporto : gerAero.listarTodos().values()) {
 				System.out.println(aeroporto.getPais());
+				if ((aeroporto.getLocal().getLatitude() == paisLoc.getLatitude()
+						|| (aeroporto.getLocal().getLatitude() < latiMais
+								&& aeroporto.getLocal().getLatitude() > latiMenos))
+						&& (aeroporto.getLocal().getLongitude() == paisLoc.getLongitude()
+								|| (aeroporto.getLocal().getLongitude() < longiMais
+										&& aeroporto.getLocal().getLongitude() > longiMenos))) {
+					pais = aeroporto.getPais();
+					break;
+				}
+			}
+
+			for (Aeroporto aeroporto : gerAero.listarTodos().values()) {
 				if (aeroporto.getPais().equals(pais)) {
 					// adiciona os pontos
 					lstPoints.add(new MyWaypoint(Color.RED, aeroporto.getNome(), aeroporto.getLocal(), 1));
 				}
 			}
+		// Informa o resultado para o gerenciador
+		gerenciador.setPontos(lstPoints);
+		gerenciador.getMapKit().repaint();
 
-			// Para obter um ponto clicado no mapa, usar como segue:
-			// GeoPosition pos = gerenciador.getPosicao();
+		}
+		else{
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("Nenhum país selecionado.");
+			alert.setHeaderText("Nenhuma região do mapa foi selecionada.");
+			alert.setContentText("Por favor, selecione algum lugar no mapa e tente novamente.");
 
+			alert.showAndWait();
+			System.out.println("passou aqui");
+		}
+
+	}
+
+	private void exercicio2() {
+		GeoPosition paisLoc = gerenciador.getPosicao();
+		if(paisLoc!=null) {
+			Pais pais = null;
+			// Lista para armazenar o resultado da consulta
+			List<MyWaypoint> lstPoints = new ArrayList<>();
+			List<Tracado> trcPoints = new ArrayList<>();
+
+			double ds0 = 5;
+
+			double longiMais = Math.ceil(paisLoc.getLongitude() + ds0);
+			double longiMenos = Math.ceil(paisLoc.getLongitude() - ds0);
+
+			double latiMais = Math.ceil(paisLoc.getLatitude() + ds0);
+			double latiMenos = Math.ceil(paisLoc.getLatitude() - ds0);
+
+			gerenciador.clear();
+
+			for (Aeroporto aeroporto : gerAero.listarTodos().values()) {
+				//System.out.println(rota.getOrigem().getPais().getCodigo().equals(pais.getCodigo()));
+				//System.out.println(rota.getDestino().getPais().getCodigo().equals(pais.getCodigo()));
+				if ((aeroporto.getLocal().getLatitude() == paisLoc.getLatitude()
+						|| (aeroporto.getLocal().getLatitude() < latiMais
+						&& aeroporto.getLocal().getLatitude() > latiMenos))
+						&& (aeroporto.getLocal().getLongitude() == paisLoc.getLongitude()
+						|| (aeroporto.getLocal().getLongitude() < longiMais
+						&& aeroporto.getLocal().getLongitude() > longiMenos))) {
+					pais = aeroporto.getPais();
+					break;
+				}
+			}
+
+			for (Rota rota : gerRotas.listarTodas()) {
+				if (rota.getOrigem().getPais().equals(pais) || rota.getDestino().getPais().equals(pais)) {
+					System.out.println(rota);
+
+						lstPoints.add(new MyWaypoint(Color.RED, rota.getOrigem().getNome(), rota.getOrigem().getLocal(), 1));
+						lstPoints.add(new MyWaypoint(Color.RED, rota.getDestino().getNome(), rota.getDestino().getLocal(), 1));
+						Tracado tracado = new Tracado();
+						tracado.addPonto(rota.getOrigem().getLocal());
+						tracado.addPonto(rota.getDestino().getLocal());
+						tracado.setWidth(1);
+						trcPoints.add(tracado);
+						gerenciador.addTracado(tracado);
+
+
+				}
+			}
 			// Informa o resultado para o gerenciador
 			gerenciador.setPontos(lstPoints);
 			gerenciador.getMapKit().repaint();
+
 		}
+		else{
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("Nenhum país selecionado.");
+			alert.setHeaderText("Nenhuma região do mapa foi selecionada.");
+			alert.setContentText("Por favor, selecione algum lugar no mapa para que as rotas sejam marcadas.");
+
+			alert.showAndWait();
+
+		}
+
 	}
-
-
-
 }
+
+

@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/My-Flight-Final/My-Flight-Final.iml" filepath="$PROJECT_DIR$/My-Flight-Final/My-Flight-Final.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/myflyght-final.iml" filepath="$PROJECT_DIR$/.idea/myflyght-final.iml" />
+>>>>>>> d0f945d641a81984f57cc1bf242d13b2269e07f1
     </modules>
   </component>
 </project>

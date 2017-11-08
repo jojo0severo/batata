@@ -49,11 +49,18 @@ public class InterfaceTexto {
 		}	
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 
 >>>>>>> branch 'master' of https://jojones@bitbucket.org/jojones/myflyght-jojo.git
 	public void allAerop() {
+=======
+	*/
+
+
+	/*public void allAerop() {
+>>>>>>> d0f945d641a81984f57cc1bf242d13b2269e07f1
 		for (Aeroporto batata : gerAerop.listarTodos()) {
 			System.out.println(batata);
 		}
