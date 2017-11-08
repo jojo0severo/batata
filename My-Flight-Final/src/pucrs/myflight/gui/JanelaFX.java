@@ -243,7 +243,7 @@ public class JanelaFX extends Application {
 		//}
 
 		if (pais.getCodigo().equals("NaoEncontrado")) {
-			System.out.println("Local não Encontrado");
+			System.out.println("Local nï¿½o Encontrado");
 		} else {
 			// Lista para armazenar o resultado da consulta
 			List<MyWaypoint> lstPoints = new ArrayList<>();
@@ -266,4 +266,7 @@ public class JanelaFX extends Application {
 			gerenciador.getMapKit().repaint();
 		}
 	}
+
+
+
 }

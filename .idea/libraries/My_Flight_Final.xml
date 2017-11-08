@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="My-Flight-Final">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/My-Flight-Final/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/My-Flight-Final/jxmapviewer.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

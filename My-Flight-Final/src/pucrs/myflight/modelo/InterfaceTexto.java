@@ -13,7 +13,7 @@ public class InterfaceTexto {
 		this.gerAerop = gerAerop;
 	}
 
-<<<<<<< HEAD
+
 	/*
 	public void AerovByCod(String cod) {
 =======
@@ -49,11 +49,11 @@ public class InterfaceTexto {
 		}	
 	}
 <<<<<<< HEAD
-	*/
-=======
+
+
 
 >>>>>>> branch 'master' of https://jojones@bitbucket.org/jojones/myflyght-jojo.git
-	/*public void allAerop() {
+	public void allAerop() {
 		for (Aeroporto batata : gerAerop.listarTodos()) {
 			System.out.println(batata);
 		}
