@@ -229,7 +229,7 @@ public class JanelaFX extends Application {
 		BorderPane pane = new BorderPane();
 		pane.setLeft(leftTopPane);
 		pane.setCenter(mapkit);
-
+		
 		// cria e inicia a scene
 		Scene scene = new Scene(pane, 500, 500);
 		primaryStage.setScene(scene);

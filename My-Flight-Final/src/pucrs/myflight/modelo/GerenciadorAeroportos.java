@@ -54,7 +54,7 @@ public class GerenciadorAeroportos {
 		return null;
 	}
 	
-	public void carregaDados(GerenciadorPaises gerPais, GerenciadorRotas gerRotas) throws IOException {
+	public void carregaDados(GerenciadorPaises gerPais) throws IOException {
 
 		Path path2 = Paths.get("airports.dat");
 		try (Scanner sc = new Scanner(Files.newBufferedReader(path2, Charset.forName("utf8")))) {
