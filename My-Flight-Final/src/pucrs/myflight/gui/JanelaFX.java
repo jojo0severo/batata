@@ -131,8 +131,10 @@ public class JanelaFX extends Application {
 
 		//Quarto Exercicio
 		Button btnConsulta4 = new Button("Exercicio 4");
-		btnConsulta4.setOnAction(e ->{
-			calcularTrafego();
+		System.out.println("Vai setar o botao");
+		btnConsulta4.setOnAction(e -> {
+			System.out.println("setou");//POR QUE RAIOS NAO ENTRA AQUI ESSA MERDA???????
+			exercicio4();
 		});
 		
 		
@@ -406,7 +408,7 @@ public class JanelaFX extends Application {
 
 	}
 
-	public void calcularTrafego() {
+	public void exercicio4() {
 
 		// Map<Integer, Set<Aeroporto>> aux1 = new TreeMap().descendingMap();
 		//
@@ -422,7 +424,7 @@ public class JanelaFX extends Application {
 
 		HashMap<Integer, Aeroporto> aeroportosComContador = (HashMap<Integer, Aeroporto>) new TreeMap().descendingMap();
 		for (Aeroporto aero : gerAero.listarTodos().values()) {
-			System.out.println("oi");
+			//System.out.println("oi");
 			for (Rota r : gerRotas.listarTodas()) {
 				int cont = 0;
 				if (r.getOrigem().equals(aero) || r.getDestino().equals(aero)) {
@@ -431,7 +433,7 @@ public class JanelaFX extends Application {
 			}
 		}
 
-		System.out.println(aeroportosComContador.toString());
+		//System.out.println(aeroportosComContador.toString());
 	}
 
 }

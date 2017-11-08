@@ -75,7 +75,7 @@ public class GerenciadorPaises {
 				nome = sc.next().replaceAll("\r", "");
 				Pais novo = new Pais(codigo, nome);
 				paises.put(codigo, novo);
-				System.out.println(codigo + "    -    " + nome);
+				//System.out.println(codigo + "    -    " + nome);
 			}
 		} catch (IOException e) {
 			System.err.format("Erro de E/S: %s%n", e);

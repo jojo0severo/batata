@@ -87,7 +87,7 @@ public class GerenciadorRotas {
 				Paradas = Integer.valueOf(paradas);
 				Rota nova = new Rota(gerCia.buscarCod(cia),gerAerop.buscarPorCodigo(origem),Paradas, gerAerop.buscarPorCodigo(destino),gerAerov.buscarporCodigo(aeronave));
 				rotas.add(nova);				
-				System.out.println(cia +"    -    "+  origem+"    -    "+destino+"    -    "+aeronave);
+				//System.out.println(cia +"    -    "+  origem+"    -    "+destino+"    -    "+aeronave);
 			}
 		} catch (IOException e) {
 			System.err.format("Erro de E/S: %s%n", e);

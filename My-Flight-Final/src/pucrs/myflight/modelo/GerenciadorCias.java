@@ -57,7 +57,7 @@ public class GerenciadorCias {
 				nome = sc.next().replaceAll("\r", "");
 				CiaAerea nova = new CiaAerea(codigo, nome);
 				empresas.put(codigo,nova);
-				System.out.println(codigo +"    -    "+  nome);
+				//System.out.println(codigo +"    -    "+  nome);
 			}
 		} catch (IOException e) {
 			System.err.format("Erro de E/S: %s%n", e);

@@ -60,7 +60,7 @@ public class GerenciadorAeronaves {
 				int cap = Integer.valueOf(capacidade);
 				Aeronave nova = new Aeronave(id, descricao, cap);
 				aero.put(id, nova);
-				System.out.println(id + "    -    " + descricao + "    -    " + capacidade);
+				//System.out.println(id + "    -    " + descricao + "    -    " + capacidade);
 			}
 		} catch (IOException e) {
 			System.err.format("Erro de E/S: %s%n", e);
