@@ -11,12 +11,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Set;
 
 public class GerenciadorAeroportos {
-	private HashMap<String,Aeroporto> aeroporto;
+	private HashMap<String,Aeroporto> aeroporto;	
 	private int count;
 
-	public GerenciadorAeroportos() {		
+	public GerenciadorAeroportos() {
 		aeroporto = new HashMap<>(); 
 		count = 0;
 	}
@@ -53,7 +54,7 @@ public class GerenciadorAeroportos {
 		return null;
 	}
 	
-	public void carregaDados(GerenciadorPaises gerPais) throws IOException {
+	public void carregaDados(GerenciadorPaises gerPais, GerenciadorRotas gerRotas) throws IOException {
 
 		Path path2 = Paths.get("airports.dat");
 		try (Scanner sc = new Scanner(Files.newBufferedReader(path2, Charset.forName("utf8")))) {

@@ -94,12 +94,24 @@ public class JanelaFX extends Application {
 		
 //Tem que ir para a janela ->
 //		Text boniteza = new Text("Informe a distancia máxima das rotas");
-//		TextField distancia = new TextField();
-//		Text boniteza2 = new Text("Selecione o aeroporto que deseja buscar");
-//		comboAeroporto = new ComboBox(ObservableListAeroportos());  <--- Tem que ir para a janela
+		TextField distancia = new TextField();
 		Button btnConsulta3 = new Button("Exercicio 3");
-		btnConsulta3.setOnAction(e -> {
-			exercicio3(comboAeroporto.getValue(), distancia.getText());
+//		Text boniteza2 = new Text("Selecione o aeroporto que deseja buscar");
+		comboAeroporto = new ComboBox(ObservableListAeroportos());  //<--- Tem que ir para a janela
+		Button btnConsulta3AbreDialog = new Button("Exercicio 3");
+		btnConsulta3AbreDialog.setOnAction(e -> {
+			TextInputDialog dialogoInputs = new TextInputDialog();
+			dialogoInputs.setTitle("Inserção de Dados");
+			dialogoInputs.setHeaderText("Insira as informações necessárias para o exercício 3");
+			distancia.setMaxWidth(150);
+			comboAeroporto.setMaxWidth(150);
+			GridPane contents = new GridPane();
+			contents.add(distancia, 0, 0);
+			contents.add(comboAeroporto,0,1);
+			contents.add(btnConsulta3, 0, 2);
+			dialogoInputs.getDialogPane().setContent(contents);
+			dialogoInputs.showAndWait();
+			//exercicio3(comboAeroporto.getValue(), distancia.getText());
 		});
 
 		//Quarto Exercicio
@@ -130,12 +142,12 @@ public class JanelaFX extends Application {
 		buttonsPane.add(selecionar, 0, 0);
 		buttonsPane.add(btnConsulta1, 0, 1);
 		buttonsPane.add(btnConsulta2, 0, 2);
-		buttonsPane.add(boniteza, 0, 3);
-		buttonsPane.add(distancia, 0, 4);
-		buttonsPane.add(boniteza2, 0, 5);
-		buttonsPane.add(comboAeroporto, 0, 6);
-		buttonsPane.add(btnConsulta3, 0, 7);
-		buttonsPane.add(btnConsulta4, 0, 8);
+		//buttonsPane.add(boniteza, 0, 3);
+		//buttonsPane.add(distancia, 0, 4);
+		//buttonsPane.add(boniteza2, 0, 5);
+		//buttonsPane.add(comboAeroporto, 0, 6);
+		buttonsPane.add(btnConsulta3AbreDialog, 0, 3);
+		buttonsPane.add(btnConsulta4, 0, 4);
 
 		// chama o construtor da scene
 		constroiScene(buttonsPane, primaryStage);

@@ -6,19 +6,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class GerenciadorRotas {
+	private HashMap<Aeroporto, Set<Rota>> rotasAerop;
 	private ArrayList<Rota> rotas;
 
 	public GerenciadorRotas() {
+		rotasAerop = new HashMap<>();
 		rotas = new ArrayList<>();
 	}
-
-	public void putRota(Rota nova) {
-		rotas.add(nova);	
-	}
-
 
 	public ArrayList<Rota> listarTodas() {
 		ArrayList<Rota> copia = new ArrayList<>();
@@ -28,6 +28,20 @@ public class GerenciadorRotas {
 		return copia;
 	}
 
+	public void adicionarAeroportosParaAsRotas(){
+		for(Rota r: listarTodas()) {
+			Set<Rota> set = new HashSet<Rota>();
+			Aeroporto aux = r.getOrigem();
+			if(rotasAerop.containsKey(r)) {
+				for(Aeroporto aero: rotasAerop.keySet()) {
+					if(aero.equals(aux)) {
+						set.add(r);
+					}
+				}
+				rotasAerop.put(aux, set);					
+			}
+		}		
+	}
 
 	public ArrayList<Rota> buscarPorOrigem(Aeroporto aero) {
 		ArrayList<Rota> auxiliar = new ArrayList<>();
@@ -86,12 +100,14 @@ public class GerenciadorRotas {
 				aeronave = sc.next().replaceAll("\r", "");
 				Paradas = Integer.valueOf(paradas);
 				Rota nova = new Rota(gerCia.buscarCod(cia),gerAerop.buscarPorCodigo(origem),Paradas, gerAerop.buscarPorCodigo(destino),gerAerov.buscarporCodigo(aeronave));
-				rotas.add(nova);				
+				rotas.add(nova);	
+				
 				//System.out.println(cia +"    -    "+  origem+"    -    "+destino+"    -    "+aeronave);
 			}
 		} catch (IOException e) {
 			System.err.format("Erro de E/S: %s%n", e);
 		}
+		adicionarAeroportosParaAsRotas();
 		
 	}
 }
