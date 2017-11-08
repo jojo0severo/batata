@@ -7,6 +7,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -27,6 +28,14 @@ public class GerenciadorAeroportos {
 		HashMap<String,Aeroporto> copia= new HashMap<>();
 		for(String key: aeroporto.keySet()){
 			copia.put(key,aeroporto.get(key));
+		}
+		return copia;
+	}
+	
+	public ArrayList<Aeroporto> listarTodosArray(){
+		ArrayList<Aeroporto> copia= new ArrayList<>();
+		for(String key: aeroporto.keySet()){
+			copia.add(aeroporto.get(key));
 		}
 		return copia;
 	}
