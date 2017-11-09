@@ -137,7 +137,9 @@ public class JanelaFX extends Application {
 			exercicio5(a);
 		});
 		comboAeroporto6Orig = new ComboBox<Aeroporto>(comboAeropData);
+		comboAeroporto6Orig.setMaxWidth(150);
 		comboAeroporto6Dest = new ComboBox<Aeroporto>(comboAeropData);
+		comboAeroporto6Dest.setMaxWidth(150);
 		btnConsulta6.setOnAction(e -> {
 			exercicio6(comboAeroporto6Orig.getValue(), comboAeroporto6Dest.getValue());
 		});
@@ -150,7 +152,9 @@ public class JanelaFX extends Application {
 		buttonsPane.add(btnConsulta4, 0, 4);
 		buttonsPane.add(comboAero, 0, 5);
 		buttonsPane.add(btnConsulta5, 0, 6);
-
+		buttonsPane.add(btnConsulta6, 0, 7);
+		buttonsPane.add(comboAeroporto6Orig, 0,8);
+		buttonsPane.add(comboAeroporto6Dest, 0, 9);
 		// Chama o construtor da scene
 		constroiScene(buttonsPane, primaryStage);
 
@@ -464,6 +468,9 @@ public class JanelaFX extends Application {
 
 	public void exercicio6(Aeroporto inicialAerop, Aeroporto finalAerop) {
 		ArrayList<Rota> rotas = new ArrayList<>();
+
+		gerenciador.clear();
+
 		for (Rota rota : gerRotas.listarTodas()) {
 			if (rota.getOrigem().equals(inicialAerop)) {
 				for (Rota r : gerRotas.listarTodas()) {
