@@ -16,6 +16,7 @@ public class GerenciadorTrafego {
 	public GerenciadorTrafego(GerenciadorRotas gerRotas, int tamanhoVetor) {
 		this.gerRotas = gerRotas;
 		this.tamanhoVetor = tamanhoVetor;
+		tamanhos = new ArrayList<>();
 		valores = new Integer[tamanhoVetor];
 		aeroportos = new Aeroporto[tamanhoVetor];
 	}
@@ -28,43 +29,41 @@ public class GerenciadorTrafego {
 		return aeroportos;
 	}
 
-	public void setPosicoes(int tamanhoVetor) {
+	public void setTamanhoVetor(int tamanhoVetor) {
 		this.tamanhoVetor = tamanhoVetor;
-		aeroportos = new Aeroporto[tamanhoVetor];
+		this.aeroportos = new Aeroporto[tamanhoVetor];
+		this.valores = new Integer[tamanhoVetor];
 	}
 
-	public void trafego() {
-		carregaTamanhos();
+
+	public void carregaTamanhos() {
+		
+		for (Aeroporto aero : gerRotas.getHashMap().keySet()) {
+			tamanhos.add(gerRotas.getHashMap().get(aero).size());
+		}		
+		Collections.sort(tamanhos);
+		
 		carregaValores();
+	}
+	
+	public void carregaValores() {
+		for (int i = 1; i < tamanhoVetor; i++) {
+			valores[i]=(tamanhos.get(tamanhoVetor - i));
+		}
+		
+		trafego();
+	}
+	
+	public void trafego() {
 		int cont = 0;
-		//Percore os aeroportos
 		for (Aeroporto aero : gerRotas.getHashMap().keySet()) {
 			cont = 0;
-			//Percorre os tamanhos dos Set<Rota> salvos
 			for (Integer integer : valores) {
-				//Verifica se o tamanho do Set<Rota> da variavel 'aero' é igual a um dos tamanhos salvos
 				if (gerRotas.getHashMap().get(aero).size() == integer) {
-					//Adiciona em um vetor de aeroportos do tamanho informado pelo usuario
 					aeroportos[cont] = aero;
 				}
 				cont++;
 			}
-		}
-	}
-
-	public void carregaTamanhos() {
-		//Percorre os aeroportos salvando o tamanho dos Set<Rota> referentes a cada um
-		for (Aeroporto aero : gerRotas.getHashMap().keySet()) {
-			tamanhos.add(gerRotas.getHashMap().get(aero).size());
-		}		
-		//Organiza o vetor
-		Collections.sort(tamanhos);
-	}
-	
-	public void carregaValores() {
-		//Salva o tamanho dos Set<Rota> em um vetor do tamanho que o usuario informar
-		for (int i = 1; i < tamanhoVetor; i++) {
-			valores[i]=(tamanhos.get(tamanhoVetor - i));
 		}
 	}
 }

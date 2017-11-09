@@ -49,11 +49,10 @@ public class JanelaFX extends Application {
 	private GerenciadorAeronaves gerAvioes;
 	private GerenciadorMapa gerenciador;
 	private EventosMouse mouse;
-	private ObservableList<CiaAerea> comboCiasData;
-	private ObservableList<Pais> comboPaisesData;
-	private ComboBox<CiaAerea> comboCia;
-	private ComboBox<Pais> comboPais;
+	private ObservableList<Aeroporto> comboAeropData;
+	private ObservableList<Aeronave> comboAeroData;
 	private ComboBox<Aeroporto> comboAeroporto;
+	private ComboBox<Aeronave> comboAero;
 	private GerenciadorPaises gerPais;
 	private GerenciadorTrafego gerTrafego;
 
@@ -94,7 +93,7 @@ public class JanelaFX extends Application {
 			dialogoInputs.close();
 		});
 
-		comboAeroporto = new ComboBox<Aeroporto>(ObservableListAeroportos());
+		comboAeroporto = new ComboBox<Aeroporto>();
 		comboAeroporto.setMaxWidth(150);
 
 		Button btnConsulta3AbreDialog = new Button("Exercicio 3");
@@ -124,8 +123,10 @@ public class JanelaFX extends Application {
 		Button btnConsulta6 = new Button("Exercicio 6");
 
 		// Quinto Exercicio
+		comboAero = new ComboBox<Aeronave>(comboAeroData);
+		comboAero.setMaxWidth(150);
 		btnConsulta5.setOnAction(e -> {
-
+			exercicio5(comboAero.getValue());
 		});
 		btnConsulta6.setOnAction(e -> {
 
@@ -137,6 +138,8 @@ public class JanelaFX extends Application {
 		buttonsPane.add(btnConsulta2, 0, 2);
 		buttonsPane.add(btnConsulta3AbreDialog, 0, 3);
 		buttonsPane.add(btnConsulta4, 0, 4);
+		buttonsPane.add(comboAero, 0, 5);
+		buttonsPane.add(btnConsulta5, 0, 6);
 
 		// chama o construtor da scene
 		constroiScene(buttonsPane, primaryStage);
@@ -159,10 +162,10 @@ public class JanelaFX extends Application {
 			gerPais.carregaDados();
 			gerCias.carregaDados();
 			gerAero.carregaDados(gerPais);
-			gerRotas.carregaDados(gerCias, gerAero, gerAvioes);
-
+			gerRotas.carregaDados(gerCias, gerAero, gerAvioes);			
 			gerTrafego = new GerenciadorTrafego(gerRotas, 0);
-
+			comboAeroData = ObservableListAeronaves();
+			comboAeropData = ObservableListAeroportos();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -208,6 +211,10 @@ public class JanelaFX extends Application {
 	public ObservableList<Aeroporto> ObservableListAeroportos() {
 		return FXCollections.observableList(gerAero.listarTodosArray());
 
+	}
+	
+	public ObservableList<Aeronave> ObservableListAeronaves(){
+		return FXCollections.observableList(gerAvioes.listarTodosArray());
 	}
 
 	// ---------------CONSTROI SCENE----------------
@@ -387,7 +394,7 @@ public class JanelaFX extends Application {
 
 		gerenciador.clear();
 
-		gerTrafego.setPosicoes(10);
+		gerTrafego.setTamanhoVetor(10);
 		gerTrafego.carregaTamanhos();
 		
 		int count = 0;
@@ -418,5 +425,12 @@ public class JanelaFX extends Application {
 			tracado.setWidth(1);
 			gerenciador.addTracado(tracado);
 		}
+		gerenciador.getMapKit().repaint();
+	}
+	
+	// ================================================================================
+	
+	public void exercicio6() {
+		
 	}
 }

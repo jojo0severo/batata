@@ -1,5 +1,6 @@
 package pucrs.myflight.modelo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.io.IOException;
@@ -29,6 +30,14 @@ public class GerenciadorAeronaves {
 			copia.put(key,aero.get(key));			
 		}
 		return copia;		
+	}
+	
+	public ArrayList<Aeronave> listarTodosArray(){
+		ArrayList<Aeronave> copia = new ArrayList<>();
+		for (String key: aero.keySet()){
+			copia.add(aero.get(key));			
+		}
+		return copia;	
 	}
 
 	public Aeronave buscarporCodigo(String cod) {
