@@ -47,8 +47,8 @@ public class GerenciadorTrafego {
 	}
 	
 	public void carregaValores() {
-		for (int i = 1; i < tamanhoVetor; i++) {
-			valores[i]=(tamanhos.get(tamanhoVetor - i));
+		for (int i = 0; i <tamanhoVetor; i++) {
+			valores[i]=(tamanhos.get(tamanhos.size() - i -1));
 		}
 		
 		trafego();
@@ -58,7 +58,8 @@ public class GerenciadorTrafego {
 		int cont = 0;
 		for (Aeroporto aero : gerRotas.getHashMap().keySet()) {
 			cont = 0;
-			for (Integer integer : valores) {
+			for (int i = 0; i<valores.length; i++) {
+				Integer integer = valores[i];
 				if (gerRotas.getHashMap().get(aero).size() == integer) {
 					aeroportos[cont] = aero;
 				}

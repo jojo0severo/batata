@@ -415,10 +415,11 @@ public class JanelaFX extends Application {
 		gerTrafego.setTamanhoVetor(10);
 		gerTrafego.carregaTamanhos();
 
-		int count = 0;
+		int count = 5;
 
-		for (Aeroporto aero : gerTrafego.getAeroportos()) {
-			lstPoints.add(new MyWaypoint(Color.RED, aero.getNome(), aero.getLocal(), count = +10));
+		for (int i=0;i< gerTrafego.getAeroportos().length;i++) {
+			lstPoints.add(new MyWaypoint(Color.RED, gerTrafego.getAeroportos()[ gerTrafego.getAeroportos().length-i-1].getNome(), gerTrafego.getAeroportos()[gerTrafego.getAeroportos().length-i-1].getLocal(), count));
+			count= count +15;
 		}
 
 		gerenciador.setPontos(lstPoints);
