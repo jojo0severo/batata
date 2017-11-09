@@ -27,6 +27,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import pucrs.myflight.modelo.Aeronave;
 import pucrs.myflight.modelo.Aeroporto;
 import pucrs.myflight.modelo.CiaAerea;
 import pucrs.myflight.modelo.Geo;
@@ -82,26 +83,33 @@ public class JanelaFX extends Application {
 		});
 
 		// Terceiro Exercicio
+		TextInputDialog dialogoInputs = new TextInputDialog();
+
 		TextField distancia = new TextField();
 		distancia.setMaxWidth(150);
+
 		Button btnConsulta3 = new Button("Exercicio 3");
+		btnConsulta3.setOnAction(a -> {
+			exercicio3(comboAeroporto.getValue(), distancia.getText());
+			dialogoInputs.close();
+		});
+
 		comboAeroporto = new ComboBox<Aeroporto>(ObservableListAeroportos());
 		comboAeroporto.setMaxWidth(150);
+
 		Button btnConsulta3AbreDialog = new Button("Exercicio 3");
 		btnConsulta3AbreDialog.setOnAction(e -> {
-			
-			//Cria um TextInputDialog para melhorar a interacao com usuario
-			TextInputDialog dialogoInputs = new TextInputDialog();
+			// Cria um TextInputDialog para melhorar a interacao com usuario
 			dialogoInputs.setTitle("Inser��o de Dados");
 			dialogoInputs.setHeaderText("Insira as informa��es necess�rias para o exerc�cio 3");
-			
-			//Cria um GridPane com os itens que vao no TextInputDialog
+
+			// Cria um GridPane com os itens que vao no TextInputDialog
 			GridPane contents = new GridPane();
 			contents.add(distancia, 0, 0);
 			contents.add(comboAeroporto, 0, 1);
 			contents.add(btnConsulta3, 0, 2);
-			
-			//Adiciona o GridPane ao TextInputDialog
+
+			// Adiciona o GridPane ao TextInputDialog
 			dialogoInputs.getDialogPane().setContent(contents);
 			dialogoInputs.showAndWait();
 		});
@@ -115,9 +123,7 @@ public class JanelaFX extends Application {
 		Button btnConsulta5 = new Button("Exercicio 5");
 		Button btnConsulta6 = new Button("Exercicio 6");
 
-		btnConsulta3.setOnAction(e -> {
-
-		});
+		// Quinto Exercicio
 		btnConsulta5.setOnAction(e -> {
 
 		});
@@ -137,8 +143,8 @@ public class JanelaFX extends Application {
 
 	}
 
-	//-----------INICIA OS PRIVATES E CARREGA OS DADOS----------
-	
+	// -----------INICIA OS PRIVATES E CARREGA OS DADOS----------
+
 	private void setup() {
 
 		// Inicializando os dados aqui...
@@ -147,7 +153,6 @@ public class JanelaFX extends Application {
 		gerRotas = new GerenciadorRotas();
 		gerAvioes = new GerenciadorAeronaves();
 		gerPais = new GerenciadorPaises();
-		gerTrafego = new GerenciadorTrafego(gerRotas, 0);
 
 		try {
 			gerAvioes.carregaDados();
@@ -156,14 +161,15 @@ public class JanelaFX extends Application {
 			gerAero.carregaDados(gerPais);
 			gerRotas.carregaDados(gerCias, gerAero, gerAvioes);
 
+			gerTrafego = new GerenciadorTrafego(gerRotas, 0);
+
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	//-----------METODOS DO PROFESSOR------------
-	
+	// -----------METODOS DO PROFESSOR------------
+
 	private class EventosMouse extends MouseAdapter {
 		private int lastButton = -1;
 
@@ -171,9 +177,7 @@ public class JanelaFX extends Application {
 		public void mousePressed(MouseEvent e) {
 			JXMapViewer mapa = gerenciador.getMapKit().getMainMap();
 			GeoPosition loc = mapa.convertPointToGeoPosition(e.getPoint());
-			// System.out.println(loc.getLatitude()+", "+loc.getLongitude());
 			lastButton = e.getButton();
-			// Botão 3: seleciona localização
 			if (lastButton == MouseEvent.BUTTON3) {
 				gerenciador.setPosicao(loc);
 				gerenciador.getMapKit().repaint();
@@ -190,12 +194,12 @@ public class JanelaFX extends Application {
 		});
 	}
 
-	//-----------MAIN---------
+	// -----------MAIN---------
 	public static void main(String[] args) {
 		launch(args);
 	}
 
-	//-------------CRIA AS LISTAS PARA OS COMBO BOX---------------
+	// -------------CRIA AS LISTAS PARA OS COMBO BOX---------------
 	public ObservableList<Pais> ObservableListPaises() {
 		return FXCollections.observableList(gerPais.listarTodosArray());
 
@@ -206,8 +210,8 @@ public class JanelaFX extends Application {
 
 	}
 
-	//---------------CONSTROI SCENE----------------
-	
+	// ---------------CONSTROI SCENE----------------
+
 	public void constroiScene(GridPane leftTopPane, Stage primaryStage) {
 		GeoPosition poa = new GeoPosition(-30.05, -51.18);
 
@@ -235,7 +239,7 @@ public class JanelaFX extends Application {
 		GeoPosition paisLoc = gerenciador.getPosicao();
 		if (paisLoc != null) {
 			Pais pais = null;
-			
+
 			List<MyWaypoint> lstPoints = new ArrayList<>();
 
 			double ds0 = 5;
@@ -248,25 +252,26 @@ public class JanelaFX extends Application {
 
 			gerenciador.clear();
 
-			for (Aeroporto aeroporto : gerAero.listarTodos().values()) {
-				System.out.println(aeroporto.getPais());
-				if ((aeroporto.getLocal().getLatitude() == paisLoc.getLatitude()
-						|| (aeroporto.getLocal().getLatitude() < latiMais
-								&& aeroporto.getLocal().getLatitude() > latiMenos))
-						&& (aeroporto.getLocal().getLongitude() == paisLoc.getLongitude()
-								|| (aeroporto.getLocal().getLongitude() < longiMais
-										&& aeroporto.getLocal().getLongitude() > longiMenos))) {
-					pais = aeroporto.getPais();
+			for (String aeroporto : gerAero.listarTodos().keySet()) {
+				if ((gerAero.listarTodos().get(aeroporto).getLocal().getLatitude() == paisLoc.getLatitude()
+						|| (gerAero.listarTodos().get(aeroporto).getLocal().getLatitude() < latiMais
+								&& gerAero.listarTodos().get(aeroporto).getLocal().getLatitude() > latiMenos))
+						&& (gerAero.listarTodos().get(aeroporto).getLocal().getLongitude() == paisLoc.getLongitude()
+								|| (gerAero.listarTodos().get(aeroporto).getLocal().getLongitude() < longiMais
+										&& gerAero.listarTodos().get(aeroporto).getLocal()
+												.getLongitude() > longiMenos))) {
+					pais = gerAero.listarTodos().get(aeroporto).getPais();
 					break;
 				}
 			}
 
-			for (Aeroporto aeroporto : gerAero.listarTodos().values()) {
-				if (aeroporto.getPais().equals(pais)) {
-					lstPoints.add(new MyWaypoint(Color.RED, aeroporto.getNome(), aeroporto.getLocal(), 1));
+			for (String aeroporto : gerAero.listarTodos().keySet()) {
+				if (gerAero.listarTodos().get(aeroporto).getPais().equals(pais)) {
+					lstPoints.add(new MyWaypoint(Color.RED, gerAero.listarTodos().get(aeroporto).getNome(),
+							gerAero.listarTodos().get(aeroporto).getLocal(), 1));
 				}
 			}
-			
+
 			gerenciador.setPontos(lstPoints);
 			gerenciador.getMapKit().repaint();
 
@@ -280,15 +285,14 @@ public class JanelaFX extends Application {
 
 	}
 
-	//================================================================================
+	// ================================================================================
 
 	private void exercicio2() {
 		GeoPosition paisLoc = gerenciador.getPosicao();
 		if (paisLoc != null) {
 			Pais pais = null;
-			
+
 			List<MyWaypoint> lstPoints = new ArrayList<>();
-			List<Tracado> trcPoints = new ArrayList<>();
 
 			double ds0 = 5;
 
@@ -300,14 +304,15 @@ public class JanelaFX extends Application {
 
 			gerenciador.clear();
 
-			for (Aeroporto aeroporto : gerAero.listarTodos().values()) {
-				if ((aeroporto.getLocal().getLatitude() == paisLoc.getLatitude()
-						|| (aeroporto.getLocal().getLatitude() < latiMais
-								&& aeroporto.getLocal().getLatitude() > latiMenos))
-						&& (aeroporto.getLocal().getLongitude() == paisLoc.getLongitude()
-								|| (aeroporto.getLocal().getLongitude() < longiMais
-										&& aeroporto.getLocal().getLongitude() > longiMenos))) {
-					pais = aeroporto.getPais();
+			for (String aeroporto : gerAero.listarTodos().keySet()) {
+				if ((gerAero.listarTodos().get(aeroporto).getLocal().getLatitude() == paisLoc.getLatitude()
+						|| (gerAero.listarTodos().get(aeroporto).getLocal().getLatitude() < latiMais
+								&& gerAero.listarTodos().get(aeroporto).getLocal().getLatitude() > latiMenos))
+						&& (gerAero.listarTodos().get(aeroporto).getLocal().getLongitude() == paisLoc.getLongitude()
+								|| (gerAero.listarTodos().get(aeroporto).getLocal().getLongitude() < longiMais
+										&& gerAero.listarTodos().get(aeroporto).getLocal()
+												.getLongitude() > longiMenos))) {
+					pais = gerAero.listarTodos().get(aeroporto).getPais();
 					break;
 				}
 			}
@@ -322,12 +327,11 @@ public class JanelaFX extends Application {
 						tracado.addPonto(rota.getOrigem().getLocal());
 						tracado.addPonto(rota.getDestino().getLocal());
 						tracado.setWidth(1);
-						trcPoints.add(tracado);
 						gerenciador.addTracado(tracado);
 					}
 				}
 			}
-			
+
 			gerenciador.setPontos(lstPoints);
 			gerenciador.getMapKit().repaint();
 
@@ -343,8 +347,8 @@ public class JanelaFX extends Application {
 
 	}
 
-	//================================================================================
-	
+	// ================================================================================
+
 	public void exercicio3(Aeroporto aero, String distancia) {
 		List<MyWaypoint> lstPoints = new ArrayList<>();
 
@@ -355,11 +359,20 @@ public class JanelaFX extends Application {
 		Geo aux = new Geo(0, 0);
 		Geo aux2 = new Geo(0, 0);
 
-		ArrayList<Rota> rotasDentroDaDistanciaEOAeroportoDeOrigemIgualAoPassadoPorParametro = gerRotas
-				.buscarPorOrigem(aero);
+		ArrayList<Rota> rotas = gerRotas.buscarPorOrigem(aero);
 
-		for (Rota r : rotasDentroDaDistanciaEOAeroportoDeOrigemIgualAoPassadoPorParametro) {
-			lstPoints.add(new MyWaypoint(Color.RED, r.getOrigem().getNome(), r.getOrigem().getLocal(), 1));
+		for (Rota r : rotas) {
+			aux = r.getOrigem().getLocal();
+			aux2 = r.getDestino().getLocal();
+			if (aux.distancia(aux2) < distanciaD) {
+				lstPoints.add(new MyWaypoint(Color.RED, r.getOrigem().getNome(), r.getOrigem().getLocal(), 1));
+
+				Tracado tracado = new Tracado();
+				tracado.addPonto(r.getOrigem().getLocal());
+				tracado.addPonto(r.getDestino().getLocal());
+				tracado.setWidth(1);
+				gerenciador.addTracado(tracado);
+			}
 		}
 
 		gerenciador.setPontos(lstPoints);
@@ -367,7 +380,7 @@ public class JanelaFX extends Application {
 
 	}
 
-	//================================================================================
+	// ================================================================================
 
 	public void exercicio4() {
 		List<MyWaypoint> lstPoints = new ArrayList<>();
@@ -385,5 +398,25 @@ public class JanelaFX extends Application {
 
 		gerenciador.setPontos(lstPoints);
 		gerenciador.getMapKit().repaint();
+	}
+
+	// ================================================================================
+
+	public void exercicio5(Aeronave aero) {
+		HashMap<Aeronave, Rota> rotas = new HashMap<>();
+
+		for (Rota rota : gerRotas.listarTodas()) {
+			if (rota.getAeronave().equals(aero)) {
+				rotas.put(aero, rota);
+			}
+		}
+
+		for (Aeronave aeronave : rotas.keySet()) {
+			Tracado tracado = new Tracado();
+			tracado.addPonto(rotas.get(aeronave).getOrigem().getLocal());
+			tracado.addPonto(rotas.get(aeronave).getDestino().getLocal());
+			tracado.setWidth(1);
+			gerenciador.addTracado(tracado);
+		}
 	}
 }
