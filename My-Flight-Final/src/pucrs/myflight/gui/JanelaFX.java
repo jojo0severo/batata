@@ -90,13 +90,15 @@ public class JanelaFX extends Application {
 		TextField distancia = new TextField();
 		distancia.setMaxWidth(150);
 
+
+
 		Button btnConsulta3 = new Button("Exercicio 3");
 		btnConsulta3.setOnAction(a -> {
 			exercicio3(comboAeroporto.getValue(), distancia.getText());
 			dialogoInputs.close();
 		});
 
-		comboAeroporto = new ComboBox<Aeroporto>();
+		comboAeroporto = new ComboBox<Aeroporto>(comboAeropData);
 		comboAeroporto.setMaxWidth(150);
 
 		Button btnConsulta3AbreDialog = new Button("Exercicio 3");
@@ -379,6 +381,7 @@ public class JanelaFX extends Application {
 
 	public void exercicio3(Aeroporto aero, String distancia) {
 		List<MyWaypoint> lstPoints = new ArrayList<>();
+		String d = distancia;
 
 		gerenciador.clear();
 

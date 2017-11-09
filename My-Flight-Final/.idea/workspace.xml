@@ -15,9 +15,22 @@
       <file leaf-file-name="JanelaFX.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/pucrs/myflight/gui/JanelaFX.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="94" column="8" lean-forward="false" selection-start-line="94" selection-start-column="8" selection-end-line="94" selection-end-column="8" />
+            <state relative-caret-position="221">
+              <caret line="393" column="0" lean-forward="true" selection-start-line="393" selection-start-column="0" selection-end-line="393" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GerenciadorMapa.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pucrs/myflight/gui/GerenciadorMapa.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="118">
+              <caret line="301" column="31" lean-forward="true" selection-start-line="301" selection-start-column="31" selection-end-line="305" selection-end-column="0" />
+              <folding>
+                <element signature="e#9019#9020#0" expanded="true" />
+                <element signature="e#9040#9041#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -87,16 +100,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="37">
               <caret line="146" column="46" lean-forward="false" selection-start-line="146" selection-start-column="46" selection-end-line="146" selection-end-column="46" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ComboBox.java" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/javafx-src.zip!/javafx/scene/control/ComboBox.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="113">
-              <caret line="350" column="62" lean-forward="false" selection-start-line="350" selection-start-column="62" selection-end-line="350" selection-end-column="62" />
               <folding />
             </state>
           </provider>
@@ -333,12 +336,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1510254527606</updated>
-      <workItem from="1510254529414" duration="8006000" />
+      <workItem from="1510254529414" duration="9532000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8006000" />
+    <option name="totallyTimeSpent" value="9532000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -384,7 +387,7 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="21" />
+      <option name="time" value="23" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -531,10 +534,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/pucrs/myflight/gui/GerenciadorMapa.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="118">
+          <caret line="301" column="31" lean-forward="true" selection-start-line="301" selection-start-column="31" selection-end-line="305" selection-end-column="0" />
+          <folding>
+            <element signature="e#9019#9020#0" expanded="true" />
+            <element signature="e#9040#9041#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/pucrs/myflight/gui/JanelaFX.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="94" column="8" lean-forward="false" selection-start-line="94" selection-start-column="8" selection-end-line="94" selection-end-column="8" />
+        <state relative-caret-position="221">
+          <caret line="393" column="0" lean-forward="true" selection-start-line="393" selection-start-column="0" selection-end-line="393" selection-end-column="0" />
           <folding />
         </state>
       </provider>
