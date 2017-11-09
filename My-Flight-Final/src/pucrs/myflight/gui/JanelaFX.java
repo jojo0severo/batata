@@ -90,8 +90,6 @@ public class JanelaFX extends Application {
 		TextField distancia = new TextField();
 		distancia.setMaxWidth(150);
 
-
-
 		Button btnConsulta3 = new Button("Exercicio 3");
 		btnConsulta3.setOnAction(a -> {
 			exercicio3(comboAeroporto.getValue(), distancia.getText());
@@ -106,12 +104,16 @@ public class JanelaFX extends Application {
 			// Cria um TextInputDialog para melhorar a interacao com usuario
 			dialogoInputs.setTitle("Inser��o de Dados");
 			dialogoInputs.setHeaderText("Insira as informa��es necess�rias para o exerc�cio 3");
+			dialogoInputs.getDialogPane().getChildren().get(1).setVisible(false);
+			dialogoInputs.getDialogPane().getChildren().get(2).setVisible(false);
 
 			// Cria um GridPane com os itens que vao no TextInputDialog
 			GridPane contents = new GridPane();
+			contents.setVgap(15);
+			contents.setHgap(15);
 			contents.add(distancia, 0, 0);
 			contents.add(comboAeroporto, 0, 1);
-			contents.add(btnConsulta3, 0, 2);
+			contents.add(btnConsulta3, 1, 2);
 
 			// Adiciona o GridPane ao TextInputDialog
 			dialogoInputs.getDialogPane().setContent(contents);
