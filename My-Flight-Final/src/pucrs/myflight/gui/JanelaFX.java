@@ -129,7 +129,10 @@ public class JanelaFX extends Application {
 		comboAero = new ComboBox<Aeronave>(comboAeroData);
 		comboAero.setMaxWidth(150);
 		btnConsulta5.setOnAction(e -> {
-			exercicio5(comboAero.getValue());
+			Aeronave a = comboAero.getValue();
+			System.out.println(a);
+
+			exercicio5(a);
 		});
 		comboAeroporto6Orig = new ComboBox<Aeroporto>(comboAeropData);
 		comboAeroporto6Dest = new ComboBox<Aeroporto>(comboAeropData);
@@ -430,13 +433,17 @@ public class JanelaFX extends Application {
 
 	public void exercicio5(Aeronave aero) {
 		HashMap<Rota, Aeroporto[]> rotas = new HashMap<>();
-
+		Aeronave a = aero;
+		gerenciador.clear();
 		for (Rota rota : gerRotas.listarTodas()) {
 			Aeroporto[] aeroDesOrig = new Aeroporto[2];
-			if (rota.getAeronave().equals(aero)) {
+			if (rota.getAeronave() == aero) {
 				aeroDesOrig[0] = rota.getOrigem();
 				aeroDesOrig[1] = rota.getDestino();
 				rotas.put(rota, aeroDesOrig);
+			}
+			if(aeroDesOrig[1]!=null) {
+				System.out.println(Arrays.toString(aeroDesOrig));
 			}
 		}
 
@@ -444,7 +451,7 @@ public class JanelaFX extends Application {
 			Tracado tracado = new Tracado();
 			tracado.addPonto(rotas.get(rota)[0].getLocal());
 			tracado.addPonto(rotas.get(rota)[1].getLocal());
-			tracado.setWidth(1);
+			tracado.setWidth(2);
 			gerenciador.addTracado(tracado);
 		}
 		gerenciador.getMapKit().repaint();
