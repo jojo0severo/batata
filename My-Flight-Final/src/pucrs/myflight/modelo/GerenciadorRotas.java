@@ -57,6 +57,15 @@ public class GerenciadorRotas {
         }
         return auxiliar;
     }
+    
+    public Rota buscarUmaOrigem(Aeroporto aero) {
+        for (Rota r : rotas) {
+            if (r.getOrigem().equals(aero)) {
+                return r;
+            }
+        }
+        return null;
+    }
 
     public ArrayList<CiaAerea> buscarCiaporCodAerov(String codaerov) {
         ArrayList<CiaAerea> auxiliar = new ArrayList<>();

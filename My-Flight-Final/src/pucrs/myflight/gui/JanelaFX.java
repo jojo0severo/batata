@@ -55,6 +55,7 @@ public class JanelaFX extends Application {
 	private ComboBox<Aeronave> comboAero;
 	private GerenciadorPaises gerPais;
 	private GerenciadorTrafego gerTrafego;
+	private int cont = 0;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -162,7 +163,7 @@ public class JanelaFX extends Application {
 			gerPais.carregaDados();
 			gerCias.carregaDados();
 			gerAero.carregaDados(gerPais);
-			gerRotas.carregaDados(gerCias, gerAero, gerAvioes);			
+			gerRotas.carregaDados(gerCias, gerAero, gerAvioes);
 			gerTrafego = new GerenciadorTrafego(gerRotas, 0);
 			comboAeroData = ObservableListAeronaves();
 			comboAeropData = ObservableListAeroportos();
@@ -212,8 +213,8 @@ public class JanelaFX extends Application {
 		return FXCollections.observableList(gerAero.listarTodosArray());
 
 	}
-	
-	public ObservableList<Aeronave> ObservableListAeronaves(){
+
+	public ObservableList<Aeronave> ObservableListAeronaves() {
 		return FXCollections.observableList(gerAvioes.listarTodosArray());
 	}
 
@@ -347,7 +348,6 @@ public class JanelaFX extends Application {
 			alert.setTitle("Nenhum país selecionado.");
 			alert.setHeaderText("Nenhuma região do mapa foi selecionada.");
 			alert.setContentText("Por favor, selecione algum lugar no mapa para que as rotas sejam marcadas.");
-
 			alert.showAndWait();
 
 		}
@@ -396,7 +396,7 @@ public class JanelaFX extends Application {
 
 		gerTrafego.setTamanhoVetor(10);
 		gerTrafego.carregaTamanhos();
-		
+
 		int count = 0;
 
 		for (Aeroporto aero : gerTrafego.getAeroportos()) {
@@ -410,27 +410,67 @@ public class JanelaFX extends Application {
 	// ================================================================================
 
 	public void exercicio5(Aeronave aero) {
-		HashMap<Aeronave, Rota> rotas = new HashMap<>();
-
+		HashMap<Rota, Aeroporto[]> rotas = new HashMap<>();
+		
 		for (Rota rota : gerRotas.listarTodas()) {
+			Aeroporto[] aeroDesOrig = new Aeroporto[2];
 			if (rota.getAeronave().equals(aero)) {
-				rotas.put(aero, rota);
+				aeroDesOrig[0]=rota.getOrigem();
+				aeroDesOrig[1]=rota.getDestino();
+				rotas.put(rota,aeroDesOrig);
 			}
 		}
-
-		for (Aeronave aeronave : rotas.keySet()) {
+		
+		for (Rota rota : rotas.keySet()) {
 			Tracado tracado = new Tracado();
-			tracado.addPonto(rotas.get(aeronave).getOrigem().getLocal());
-			tracado.addPonto(rotas.get(aeronave).getDestino().getLocal());
+			tracado.addPonto(rotas.get(rota)[0].getLocal());
+			tracado.addPonto(rotas.get(rota)[1].getLocal());
 			tracado.setWidth(1);
 			gerenciador.addTracado(tracado);
 		}
 		gerenciador.getMapKit().repaint();
 	}
-	
+
 	// ================================================================================
-	
-	public void exercicio6() {
-		
+
+	public void exercicio6(Aeroporto finalAerop) {
+		ArrayList<Rota> rotas = new ArrayList<>();
+		for (Rota r : gerRotas.listarTodas()) {
+			if (r.getDestino().equals(finalAerop)) {
+				rotas.add(r);
+			} else {
+				if(achaDestino(r, finalAerop)==null) {
+					Alert alert = new Alert(Alert.AlertType.WARNING);
+					alert.setTitle("Rota inexistente");
+					alert.setHeaderText("Locais Sem Rota");
+					alert.setContentText("Nao existe rota para esses locais");
+					alert.showAndWait();
+				}	
+				else {
+					rotas.add(achaDestino(r, finalAerop));
+					Tracado tracado = new Tracado();
+					tracado.addPonto(r.getOrigem().getLocal());
+					tracado.addPonto(r.getDestino().getLocal());
+					tracado.setWidth(1);
+					gerenciador.addTracado(tracado);
+				}
+			}
+		}
+	}
+
+	public Rota achaDestino(Rota r, Aeroporto aerop) {
+		cont = 0;
+		for (int i = 0; i < gerRotas.buscarPorOrigem(r.getDestino()).size(); i++) {
+			if (gerRotas.buscarPorOrigem(r.getDestino()).get(i).getDestino().equals(aerop)) {
+				return r;
+			}
+			cont++;
+		}
+
+		achaDestino(gerRotas.buscarUmaOrigem(r.getDestino()), aerop);
+		if (cont == gerRotas.listarTodas().size()) {
+			return null;
+		}
+		return null;
 	}
 }
