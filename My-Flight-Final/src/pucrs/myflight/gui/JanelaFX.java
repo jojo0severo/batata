@@ -594,13 +594,14 @@ public class JanelaFX extends Application {
 	}
 
 	public ArrayList<Rota> achaDestinoMultiplo(Rota atual, Aeroporto destino) {
-		destino.setPassouAqui(true);
 		cont++;
 		if (destino.getPassouAqui() == false) {
+			destino.setPassouAqui(true);
 			if (gerRotas.buscarUmaOrigem(destino).getDestino().equals(destino)) {
 				rotas.add(atual);
 				return rotas;
 			}
+			rotas.add(atual);
 		} else {
 			atual = gerRotas.buscarUmaOrigem(gerRotas.buscarUmaOrigem(destino).getDestino());
 			destino = gerRotas.buscarUmaOrigem(destino).getDestino();
