@@ -32,15 +32,22 @@ public class GerenciadorRotas {
         return rotasAerop;
     }
 
+    public Rota getRota(Rota r) {
+        for (Rota rota : listarTodas()) {
+            if (rota.equals(r)) {
+                return r;
+            }
+        }
+        return null;
+    }
+
     public void adicionarAeroportosParaAsRotas(Rota nova, GerenciadorAeroportos gerAerop) {
         Set<Rota> set;
         Aeroporto aux = nova.getOrigem();
         if (rotasAerop.containsKey(aux)) {
             set = rotasAerop.get(aux);
             set.add(nova);
-        }
-
-        else {
+        } else {
             set = new HashSet<>();
             set.add(nova);
             rotasAerop.put(aux, set);
@@ -57,7 +64,7 @@ public class GerenciadorRotas {
         }
         return auxiliar;
     }
-    
+
     public Rota buscarUmaOrigem(Aeroporto aero) {
         for (Rota r : rotas) {
             if (r.getOrigem().equals(aero)) {

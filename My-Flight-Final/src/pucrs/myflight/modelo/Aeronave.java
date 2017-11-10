@@ -4,9 +4,10 @@ public class Aeronave implements imprimivel, Contavel, Comparable<Aeronave> {
 	private String codigo;
 	private String descricao;
 	private int capacidade;
+	private boolean passouAqui;
 	private static int quantaerov = 0;
 
-	public Aeronave(String codigo, String descricao, int cap) {
+    public Aeronave(String codigo, String descricao, int cap) {
 		this.codigo = codigo;
 		this.descricao = descricao;
 		this.capacidade = cap;
@@ -37,6 +38,10 @@ public class Aeronave implements imprimivel, Contavel, Comparable<Aeronave> {
 	public int getTotal() {
 		return quantaerov;
 	}
+
+    public static int getQuantaerov() {
+        return quantaerov;
+    }
 
 	@Override
 	public int compareTo(Aeronave outra) {
