@@ -116,8 +116,28 @@ public class JanelaFX extends Application {
 
 		// Quarto Exercicio
 		Button btnConsulta4 = new Button("Exercicio 4");
+		CheckBox pais = new CheckBox("Aeroportos de um país");
+		CheckBox mundo = new CheckBox("Aeroportos do mundo");
 		btnConsulta4.setOnAction(e -> {
-			exercicio4();
+			if(pais.isSelected()) {
+				exercicio4Pais();
+			}
+			else if(mundo.isSelected()) {
+				exercicio4Mundo();
+			}
+			else {
+				Alert alert = new Alert(Alert.AlertType.WARNING);
+				alert.setTitle("Nenhuma opcao selecionado.");
+				alert.setHeaderText("Nenhuma caixa de selecao escolhida.");
+				alert.setContentText("Por favor, selecione se deseja que sejam mostrados os aeroportos do mundo ou de um país selecionado.");
+				alert.showAndWait();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException g) {
+					g.printStackTrace();
+				}
+				alert.close();
+			}
 		});
 
 		// Quinto Exercicio
@@ -446,13 +466,15 @@ public class JanelaFX extends Application {
 
 	// ================================================================================
 
-	public void exercicio4() {
+	public void exercicio4Mundo() {
 		List<MyWaypoint> lstPoints = new ArrayList<>();
+		GeoPosition paisLoc = gerenciador.getPosicao();
 
 		gerenciador.clear();
 
 		gerTrafego.setTamanhoVetor(10);
-		gerTrafego.carregaTamanhos();
+		ArrayList<Aeroporto> aux = gerTrafego.aeroportosDeUmPais(gerenciador, gerAero, paisLoc);
+		gerTrafego.carregaTamanhosArray(aux);
 
 		int count = 5;
 		int tamanho = gerTrafego.getAeroportos().length - 1;
@@ -468,7 +490,30 @@ public class JanelaFX extends Application {
 	}
 
 	// ================================================================================
+	
+	public void exercicio4Pais() {
+		List<MyWaypoint> lstPoints = new ArrayList<>();
 
+		gerenciador.clear();
+
+		gerTrafego.setTamanhoVetor(10);
+		gerTrafego.carregaTamanhosHashMap();
+
+		int count = 5;
+		int tamanho = gerTrafego.getAeroportos().length - 1;
+
+		for (int i = 0; i < gerTrafego.getAeroportos().length; i++) {
+			lstPoints.add(new MyWaypoint(Color.RED, gerTrafego.getAeroportos()[tamanho - i].getNome(),
+					gerTrafego.getAeroportos()[tamanho - i].getLocal(), count));
+			count = count + 15;
+		}
+
+		gerenciador.setPontos(lstPoints);
+		gerenciador.getMapKit().repaint();
+	}
+
+	// ================================================================================
+	
 	public void exercicio5(Aeronave aero) {
 		HashMap<Rota, Aeroporto[]> rotas = new HashMap<>();
 		
