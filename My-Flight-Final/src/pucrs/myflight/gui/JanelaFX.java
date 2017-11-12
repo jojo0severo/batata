@@ -49,6 +49,7 @@ public class JanelaFX extends Application {
 	// private ComboBox<Aeroporto> comboAeroporto6Orig;
 	// private ComboBox<Aeroporto> comboAeroporto6Dest;
 	private GerenciadorPaises gerPais;
+	private ArrayList<Color> cores;
 	private GerenciadorTrafego gerTrafego;
 	private ArrayList<Rota> rotas = new ArrayList<>();
 	private int cont = 0;
@@ -119,17 +120,16 @@ public class JanelaFX extends Application {
 		CheckBox pais = new CheckBox("Aeroportos de um país");
 		CheckBox mundo = new CheckBox("Aeroportos do mundo");
 		btnConsulta4.setOnAction(e -> {
-			if(pais.isSelected()) {
+			if (pais.isSelected()) {
 				exercicio4Pais();
-			}
-			else if(mundo.isSelected()) {
+			} else if (mundo.isSelected()) {
 				exercicio4Mundo();
-			}
-			else {
+			} else {
 				Alert alert = new Alert(Alert.AlertType.WARNING);
 				alert.setTitle("Nenhuma opcao selecionado.");
 				alert.setHeaderText("Nenhuma caixa de selecao escolhida.");
-				alert.setContentText("Por favor, selecione se deseja que sejam mostrados os aeroportos do mundo ou de um país selecionado.");
+				alert.setContentText(
+						"Por favor, selecione se deseja que sejam mostrados os aeroportos do mundo ou de um país selecionado.");
 				alert.showAndWait();
 				try {
 					Thread.sleep(2000);
@@ -224,6 +224,7 @@ public class JanelaFX extends Application {
 		gerRotas = new GerenciadorRotas();
 		gerAvioes = new GerenciadorAeronaves();
 		gerPais = new GerenciadorPaises();
+		cores = new ArrayList<>();
 
 		try {
 			gerAvioes.carregaDados();
@@ -234,6 +235,16 @@ public class JanelaFX extends Application {
 			gerTrafego = new GerenciadorTrafego(gerRotas, 0);
 			comboAeroData = ObservableListAeronaves();
 			comboAeropData = ObservableListAeroportos();
+			cores.add(Color.white);
+			cores.add(Color.LIGHT_GRAY);
+			cores.add(Color.cyan);
+			cores.add(Color.blue);
+			cores.add(Color.magenta);
+			cores.add(Color.getColor("violet"));
+			cores.add(Color.getColor("purple"));
+			cores.add(Color.GRAY);
+			cores.add(Color.DARK_GRAY);
+			cores.add(Color.black);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -480,7 +491,7 @@ public class JanelaFX extends Application {
 		int tamanho = gerTrafego.getAeroportos().length - 1;
 
 		for (int i = 0; i < gerTrafego.getAeroportos().length; i++) {
-			lstPoints.add(new MyWaypoint(Color.RED, gerTrafego.getAeroportos()[tamanho - i].getNome(),
+			lstPoints.add(new MyWaypoint(cores.get(tamanho - i), gerTrafego.getAeroportos()[tamanho - i].getNome(),
 					gerTrafego.getAeroportos()[tamanho - i].getLocal(), count));
 			count = count + 15;
 		}
@@ -490,10 +501,10 @@ public class JanelaFX extends Application {
 	}
 
 	// ================================================================================
-	
+
 	public void exercicio4Pais() {
 		List<MyWaypoint> lstPoints = new ArrayList<>();
-
+		
 		gerenciador.clear();
 
 		gerTrafego.setTamanhoVetor(10);
@@ -503,7 +514,7 @@ public class JanelaFX extends Application {
 		int tamanho = gerTrafego.getAeroportos().length - 1;
 
 		for (int i = 0; i < gerTrafego.getAeroportos().length; i++) {
-			lstPoints.add(new MyWaypoint(Color.RED, gerTrafego.getAeroportos()[tamanho - i].getNome(),
+			lstPoints.add(new MyWaypoint(cores.get(tamanho - i), gerTrafego.getAeroportos()[tamanho - i].getNome(),
 					gerTrafego.getAeroportos()[tamanho - i].getLocal(), count));
 			count = count + 15;
 		}
@@ -513,12 +524,12 @@ public class JanelaFX extends Application {
 	}
 
 	// ================================================================================
-	
+
 	public void exercicio5(Aeronave aero) {
 		HashMap<Rota, Aeroporto[]> rotas = new HashMap<>();
-		
+
 		gerenciador.clear();
-		
+
 		for (Rota rota : gerRotas.listarTodas()) {
 			Aeroporto[] aeroDesOrig = new Aeroporto[2];
 			if (rota.getAeronave() == aero) {
@@ -653,7 +664,7 @@ public class JanelaFX extends Application {
 			achaDestinoMultiplo(atual, destino);
 		}
 		if (cont == gerRotas.listarTodas().size()) {
-			//Nao possui rota(s) entre os destinos;
+			// Nao possui rota(s) entre os destinos;
 			return null;
 		}
 		return null;
