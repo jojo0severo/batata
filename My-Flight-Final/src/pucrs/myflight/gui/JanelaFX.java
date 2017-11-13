@@ -97,8 +97,8 @@ public class JanelaFX extends Application {
 		Button btnConsulta3AbreDialog = new Button("Exercicio 3");
 		btnConsulta3AbreDialog.setOnAction(e -> {
 			// Cria um TextInputDialog para melhorar a interacao com usuario
-			dialogoInputs.setTitle("Inserï¿½ï¿½o de Dados");
-			dialogoInputs.setHeaderText("Insira as informaï¿½ï¿½es necessï¿½rias para o exercï¿½cio 3");
+			dialogoInputs.setTitle("Insercaoo de Dados");
+			dialogoInputs.setHeaderText("Insira as informacoes necessarias para o exercicio 3");
 			dialogoInputs.getDialogPane().getChildren().get(1).setVisible(false);
 			dialogoInputs.getDialogPane().getChildren().get(2).setVisible(false);
 
@@ -116,9 +116,9 @@ public class JanelaFX extends Application {
 		});
 
 		// Quarto Exercicio
-		Button btnConsulta4 = new Button("Exercicio 4");
 		CheckBox pais = new CheckBox("Aeroportos de um país");
 		CheckBox mundo = new CheckBox("Aeroportos do mundo");
+		Button btnConsulta4 = new Button("Exercicio 4");		
 		btnConsulta4.setOnAction(e -> {
 			if (pais.isSelected()) {
 				exercicio4Pais();
@@ -139,6 +139,23 @@ public class JanelaFX extends Application {
 				alert.close();
 			}
 		});
+		
+		Button btnConsulta4AbreInputs = new Button("Exercicio 4");
+		btnConsulta4AbreInputs.setOnAction(e->{
+			dialogoInputs.setTitle("Insercaoo de Dados");
+			dialogoInputs.setHeaderText("Insira as informacoes necessarias para o exercicio 4");
+			dialogoInputs.getDialogPane().getChildren().get(1).setVisible(false);
+			dialogoInputs.getDialogPane().getChildren().get(2).setVisible(false);
+			
+			GridPane contents = new GridPane();
+			contents.add(pais, 0, 0);
+			contents.add(mundo, 0, 1);
+			contents.add(btnConsulta4, 1, 2);
+			dialogoInputs.getDialogPane().setContent(contents);
+			dialogoInputs.showAndWait();
+		});
+		
+		
 
 		// Quinto Exercicio
 		comboAero = new ComboBox<Aeronave>(comboAeroData);
@@ -204,10 +221,9 @@ public class JanelaFX extends Application {
 		buttonsPane.add(btnConsulta1, 0, 1);
 		buttonsPane.add(btnConsulta2, 0, 2);
 		buttonsPane.add(btnConsulta3AbreDialog, 0, 3);
-		buttonsPane.add(btnConsulta4, 0, 4);
-		buttonsPane.add(comboAero, 0, 5);
-		buttonsPane.add(btnConsulta5AbreInputs, 0, 6);
-		buttonsPane.add(btnConsulta6AbreInputs, 0, 7);
+		buttonsPane.add(btnConsulta4AbreInputs, 0, 4);
+		buttonsPane.add(btnConsulta5AbreInputs, 0, 5);
+		buttonsPane.add(btnConsulta6AbreInputs, 0, 6);
 
 		// Chama o construtor da scene
 		constroiScene(buttonsPane, primaryStage);
@@ -477,7 +493,7 @@ public class JanelaFX extends Application {
 
 	// ================================================================================
 
-	public void exercicio4Mundo() {
+	public void exercicio4Pais() {
 		List<MyWaypoint> lstPoints = new ArrayList<>();
 		GeoPosition paisLoc = gerenciador.getPosicao();
 
@@ -502,7 +518,7 @@ public class JanelaFX extends Application {
 
 	// ================================================================================
 
-	public void exercicio4Pais() {
+	public void exercicio4Mundo() {
 		List<MyWaypoint> lstPoints = new ArrayList<>();
 		
 		gerenciador.clear();

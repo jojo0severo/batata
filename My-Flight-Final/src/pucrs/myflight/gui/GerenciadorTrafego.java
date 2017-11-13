@@ -110,7 +110,7 @@ public class GerenciadorTrafego {
 		
 		for (String codAeroporto : gerAero.listarTodos().keySet()) {
 			Aeroporto aux = gerAero.listarTodos().get(codAeroporto);
-			if (aux.getPais().equals(pais)) {
+			if (aux.getPais().getNome().equals(pais.getNome())) {
 				aeroportos.add(aux);
 			}
 		}
