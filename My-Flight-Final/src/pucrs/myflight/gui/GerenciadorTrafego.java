@@ -3,6 +3,7 @@ package pucrs.myflight.gui;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Set;
 
 import org.jxmapviewer.viewer.GeoPosition;
 
@@ -10,6 +11,7 @@ import pucrs.myflight.modelo.Aeroporto;
 import pucrs.myflight.modelo.GerenciadorAeroportos;
 import pucrs.myflight.modelo.GerenciadorRotas;
 import pucrs.myflight.modelo.Pais;
+import pucrs.myflight.modelo.Rota;
 
 public class GerenciadorTrafego {
 	private ArrayList<Integer> tamanhos;
@@ -53,7 +55,14 @@ public class GerenciadorTrafego {
 	public void carregaTamanhosArray(ArrayList<Aeroporto> aeroportos) {
 		
 		for(int i =0; i<aeroportos.size();i++ ) {
-			tamanhos.add(gerRotas.getHashMap().get(aeroportos.get(i)).size());
+			Set<Rota> verificador = gerRotas.getHashMap().get(aeroportos.get(i));
+			if(verificador ==null) {
+				continue;
+			}
+			else {
+				tamanhos.add(verificador.size());
+			}
+			
 		}
 		
 		Collections.sort(tamanhos);
