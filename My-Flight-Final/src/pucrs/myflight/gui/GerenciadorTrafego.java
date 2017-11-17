@@ -1,6 +1,7 @@
 package pucrs.myflight.gui;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.TreeMap;
 
 import org.jxmapviewer.viewer.GeoPosition;
@@ -11,28 +12,27 @@ import pucrs.myflight.modelo.GerenciadorRotas;
 import pucrs.myflight.modelo.Pais;
 
 public class GerenciadorTrafego {
-	private TreeMap<Integer, ArrayList<Aeroporto>> tamanhos;
+	private Map<Integer, ArrayList<Aeroporto>> tamanhos;
 	private GerenciadorRotas gerRotas;
 	private int tamanhoVetor;
-	private ArrayList<Aeroporto> aeroportosPais;
 	private ArrayList<Aeroporto> aeroportos;
 	private Pais pais;
 
 	public GerenciadorTrafego(GerenciadorRotas gerRotas, int tamanhoVetor) {
 		this.gerRotas = gerRotas;
 		this.tamanhoVetor = tamanhoVetor;
-		tamanhos = new TreeMap<>();
+		tamanhos = new TreeMap().descendingMap();
 		aeroportos = new ArrayList<>();
 	}
 
-	public TreeMap<Integer, ArrayList<Aeroporto>> getTamanhos() {
+	public Map<Integer, ArrayList<Aeroporto>> getTamanhos() {
 		return tamanhos;
 	}
 
 	public ArrayList<Aeroporto> getAeroportos() {
 		return aeroportos;
 	}
-	
+
 	public int getTamanhoVetor() {
 		return tamanhoVetor;
 	}
@@ -43,7 +43,6 @@ public class GerenciadorTrafego {
 
 	public void carregaTamanhos() {
 		tamanhos = gerRotas.getTamanhos();
-
 		if (pais == null) {
 			trafego();
 		} else {
@@ -53,30 +52,32 @@ public class GerenciadorTrafego {
 	}
 
 	public void trafego() {
-		for (int i = 0; i < tamanhoVetor; i++) {
-			Integer aux = tamanhos.lastKey();
-			for (Aeroporto aero : tamanhos.get(aux)) {
-				aeroportos.add(aero);
+		int cont = 0;
+		while (cont < 10) {
+			for (Integer integer : tamanhos.keySet()) {
+				for (Aeroporto aero : tamanhos.get(integer)) {
+					aeroportos.add(aero);
+					cont++;
+				}
 			}
-			tamanhos.remove(tamanhos.lastKey());
 		}
 	}
 
 	public void trafegoPais() {
-		for (int i = 0; i < tamanhoVetor; i++) {
-			Integer aux = tamanhos.lastKey();
-			for (Aeroporto aero : tamanhos.get(aux)) {
-				if (aero.getPais() == pais) {
-					aeroportos.add(aero);
+		int cont = 0;
+		while (cont < 10) {
+			for (Integer integer : tamanhos.keySet()) {
+				for (Aeroporto aero : tamanhos.get(integer)) {
+					if (aero.getPais() == pais) {
+						aeroportos.add(aero);
+						cont++;
+					}
 				}
 			}
-			tamanhos.remove(tamanhos.lastKey());
 		}
 	}
 
 	public void aeroportosDeUmPais(GerenciadorAeroportos gerAero, GeoPosition paisLoc) {
-
-		aeroportosPais = new ArrayList<>();
 		pais = null;
 
 		double ds0 = 5;
@@ -96,13 +97,6 @@ public class GerenciadorTrafego {
 									&& aux.getLocal().getLongitude() > longiMenos))) {
 				pais = aux.getPais();
 				break;
-			}
-		}
-
-		for (String codAeroporto : gerAero.listarTodos().keySet()) {
-			Aeroporto aux = gerAero.listarTodos().get(codAeroporto);
-			if (aux.getPais() == pais) {
-				aeroportosPais.add(aux);
 			}
 		}
 	}

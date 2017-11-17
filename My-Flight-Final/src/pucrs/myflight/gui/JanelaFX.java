@@ -53,6 +53,7 @@ public class JanelaFX extends Application {
 	private GerenciadorTrafego gerTrafego;
 	private ArrayList<Rota> rotas = new ArrayList<>();
 	private int cont = 0;
+	private Integer integer = null;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -116,15 +117,19 @@ public class JanelaFX extends Application {
 		});
 
 		// Quarto Exercicio
-		CheckBox pais = new CheckBox("Aeroportos de um país");
+		CheckBox pais = new CheckBox("Aeroportos de um pais");
 		CheckBox mundo = new CheckBox("Aeroportos do mundo");
 		TextField quantiAerops = new TextField("Quantidade de aeroportos");
 		Button btnConsulta4 = new Button("Exercicio 4");		
 		btnConsulta4.setOnAction(e -> {
-			//gerTrafego.setTamanhoVetor(Integer.valueOf(quantiAerops.getText()));
+			String integerS = quantiAerops.getText().toString();
+			integer = Integer.valueOf(integerS);
+			System.out.println(integer);
 			if (pais.isSelected()) {
+				gerTrafego.setTamanhoVetor(integer);
 				exercicio4Pais();
 			} else if (mundo.isSelected()) {
+				gerTrafego.setTamanhoVetor(integer);
 				exercicio4Mundo();
 			} else {
 				Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -501,7 +506,7 @@ public class JanelaFX extends Application {
 		GeoPosition paisLoc = gerenciador.getPosicao();
 		gerTrafego = new GerenciadorTrafego(gerRotas, 10);
 		gerenciador.clear();
-		gerTrafego.setTamanhoVetor(10);
+		
 		gerTrafego.carregaTamanhos();
 
 		int count = 5;
@@ -523,7 +528,6 @@ public class JanelaFX extends Application {
 	public void exercicio4Mundo() {
 		List<MyWaypoint> lstPoints = new ArrayList<>();
 
-		gerTrafego.setTamanhoVetor(10);
 		gerenciador.clear();
 
 		gerTrafego.carregaTamanhos();
@@ -531,7 +535,7 @@ public class JanelaFX extends Application {
 		int count = 5;
 		int tamanho = gerTrafego.getAeroportos().size() - 1;
 
-		for (int i = 0; i < gerTrafego.getTamanhoVetor(); i++) {
+		for (int i = 0; i <= gerTrafego.getTamanhoVetor(); i++) {
 			lstPoints.add(new MyWaypoint(cores.get(tamanho - i), gerTrafego.getAeroportos().get(tamanho - i).getNome(),
 					gerTrafego.getAeroportos().get(tamanho - i).getLocal(), count));
 			count = count + 15;
