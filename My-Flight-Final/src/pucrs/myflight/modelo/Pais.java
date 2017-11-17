@@ -37,7 +37,9 @@ public class Pais implements Comparable<Pais> {
 		return 0;
 	}
 
-	
+	public boolean equals(Pais um, Pais dois) {
+		return um==dois;
+	}
 	
 	
 }

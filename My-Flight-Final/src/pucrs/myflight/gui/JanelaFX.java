@@ -248,7 +248,7 @@ public class JanelaFX extends Application {
 			gerCias.carregaDados();
 			gerAero.carregaDados(gerPais);
 			gerRotas.carregaDados(gerCias, gerAero, gerAvioes);
-			gerTrafego = new GerenciadorTrafego(gerRotas, 0);
+			//gerTrafego = new GerenciadorTrafego(gerRotas, 0);
 			comboAeroData = ObservableListAeronaves();
 			comboAeropData = ObservableListAeroportos();
 			cores.add(Color.white);
@@ -496,7 +496,7 @@ public class JanelaFX extends Application {
 	public void exercicio4Pais() {
 		List<MyWaypoint> lstPoints = new ArrayList<>();
 		GeoPosition paisLoc = gerenciador.getPosicao();
-
+		gerTrafego = new GerenciadorTrafego(gerRotas, 10);
 		gerenciador.clear();
 
 		gerTrafego.setTamanhoVetor(10);
@@ -507,13 +507,14 @@ public class JanelaFX extends Application {
 		int tamanho = gerTrafego.getAeroportos().length - 1;
 
 		for (int i = 0; i < gerTrafego.getAeroportos().length; i++) {
-			lstPoints.add(new MyWaypoint(cores.get(tamanho - i), gerTrafego.getAeroportos()[tamanho - i].getNome(),
+			lstPoints.add(new MyWaypoint(cores.get(i), gerTrafego.getAeroportos()[tamanho - i].getNome(),
 					gerTrafego.getAeroportos()[tamanho - i].getLocal(), count));
 			count = count + 15;
 		}
-
+		
 		gerenciador.setPontos(lstPoints);
 		gerenciador.getMapKit().repaint();
+		
 	}
 
 	// ================================================================================
