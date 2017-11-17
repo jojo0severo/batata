@@ -1,10 +1,6 @@
 package pucrs.myflight.gui;
 
-import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Set;
 import java.util.TreeMap;
 
 import org.jxmapviewer.viewer.GeoPosition;
@@ -13,80 +9,74 @@ import pucrs.myflight.modelo.Aeroporto;
 import pucrs.myflight.modelo.GerenciadorAeroportos;
 import pucrs.myflight.modelo.GerenciadorRotas;
 import pucrs.myflight.modelo.Pais;
-import pucrs.myflight.modelo.Rota;
 
 public class GerenciadorTrafego {
-	private TreeMap<Aeroporto, Integer> tamanhos;
+	private TreeMap<Integer, ArrayList<Aeroporto>> tamanhos;
 	private GerenciadorRotas gerRotas;
 	private int tamanhoVetor;
-	private Aeroporto[] aeroportos;
+	private ArrayList<Aeroporto> aeroportosPais;
+	private ArrayList<Aeroporto> aeroportos;
 	private Pais pais;
 
 	public GerenciadorTrafego(GerenciadorRotas gerRotas, int tamanhoVetor) {
 		this.gerRotas = gerRotas;
 		this.tamanhoVetor = tamanhoVetor;
 		tamanhos = new TreeMap<>();
-		aeroportos = new Aeroporto[tamanhoVetor];
+		aeroportos = new ArrayList<>();
 	}
 
-	public TreeMap<Aeroporto, Integer> getTamanhos() {
+	public TreeMap<Integer, ArrayList<Aeroporto>> getTamanhos() {
 		return tamanhos;
 	}
 
-	public Aeroporto[] getAeroportos() {
+	public ArrayList<Aeroporto> getAeroportos() {
 		return aeroportos;
+	}
+	
+	public int getTamanhoVetor() {
+		return tamanhoVetor;
 	}
 
 	public void setTamanhoVetor(int tamanhoVetor) {
 		this.tamanhoVetor = tamanhoVetor;
-		this.aeroportos = new Aeroporto[tamanhoVetor];
 	}
 
-	public void carregaTamanhosHashMap() {
+	public void carregaTamanhos() {
+		tamanhos = gerRotas.getTamanhos();
 
-		for (Aeroporto aero : gerRotas.getHashMap().keySet()) {
-			tamanhos.put(aero, gerRotas.getHashMap().get(aero).size());
+		if (pais == null) {
+			trafego();
+		} else {
+			trafegoPais();
 		}
 
-		trafego();
-	}
-
-	public void carregaTamanhosArray(ArrayList<Aeroporto> aeroportos) {
-
-		for (int i = 0; i < aeroportos.size(); i++) {
-			Set<Rota> verificador = gerRotas.getHashMap().get(aeroportos.get(i));
-			if (verificador == null) {
-				continue;
-			} else {
-				tamanhos.put(aeroportos.get(i), verificador.size());
-			}
-
-		}
-
-		trafegoPais();
 	}
 
 	public void trafego() {
 		for (int i = 0; i < tamanhoVetor; i++) {
-			aeroportos[i] = tamanhos.lastKey();
-			tamanhos.remove(tamanhos.firstKey());
-
+			Integer aux = tamanhos.lastKey();
+			for (Aeroporto aero : tamanhos.get(aux)) {
+				aeroportos.add(aero);
+			}
+			tamanhos.remove(tamanhos.lastKey());
 		}
 	}
 
 	public void trafegoPais() {
 		for (int i = 0; i < tamanhoVetor; i++) {
-			aeroportos[i] = tamanhos.lastKey();
-			tamanhos.remove(tamanhos.firstKey());
-
+			Integer aux = tamanhos.lastKey();
+			for (Aeroporto aero : tamanhos.get(aux)) {
+				if (aero.getPais() == pais) {
+					aeroportos.add(aero);
+				}
+			}
+			tamanhos.remove(tamanhos.lastKey());
 		}
-
 	}
 
-	public ArrayList<Aeroporto> aeroportosDeUmPais(GerenciadorMapa gerenciador, GerenciadorAeroportos gerAero,
-			GeoPosition paisLoc) {
+	public void aeroportosDeUmPais(GerenciadorAeroportos gerAero, GeoPosition paisLoc) {
 
-		ArrayList<Aeroporto> aeroportos = new ArrayList<>();
+		aeroportosPais = new ArrayList<>();
 		pais = null;
 
 		double ds0 = 5;
@@ -112,10 +102,8 @@ public class GerenciadorTrafego {
 		for (String codAeroporto : gerAero.listarTodos().keySet()) {
 			Aeroporto aux = gerAero.listarTodos().get(codAeroporto);
 			if (aux.getPais() == pais) {
-				aeroportos.add(aux);
+				aeroportosPais.add(aux);
 			}
 		}
-
-		return aeroportos;
 	}
 }

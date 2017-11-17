@@ -10,17 +10,26 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class GerenciadorRotas {
+	private TreeMap<Integer, ArrayList<Aeroporto>> tamanhos;
     private HashMap<Aeroporto, Set<Rota>> rotasAerop;
     private ArrayList<Rota> rotas;
 
     public GerenciadorRotas() {
         rotasAerop = new HashMap<>();
         rotas = new ArrayList<>();
+        tamanhos = new TreeMap<>();
     }
+    
+    
 
-    public ArrayList<Rota> listarTodas() {
+    public TreeMap<Integer, ArrayList<Aeroporto>> getTamanhos() {
+		return tamanhos;
+	}
+    
+	public ArrayList<Rota> listarTodas() {
         ArrayList<Rota> copia = new ArrayList<>();
         for (Rota r : rotas) {
             copia.add(r);
@@ -31,6 +40,22 @@ public class GerenciadorRotas {
     public HashMap<Aeroporto, Set<Rota>> getHashMap() {
         return rotasAerop;
     }
+    
+    public void carregaTamanhos() {
+		ArrayList<Aeroporto> aeroList;
+		for (Aeroporto aero : getHashMap().keySet()) {
+			if (tamanhos.containsKey(getHashMap().get(aero).size())) {
+				aeroList = tamanhos.get(getHashMap().get(aero).size());
+				aeroList.add(aero);
+			}
+
+			else {
+				aeroList = new ArrayList<>();
+				aeroList.add(aero);
+				tamanhos.put(getHashMap().get(aero).size(), aeroList);
+			}
+		}
+	}
 
     public Rota getRota(Rota r) {
         for (Rota rota : listarTodas()) {

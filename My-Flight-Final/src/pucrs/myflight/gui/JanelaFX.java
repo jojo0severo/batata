@@ -118,8 +118,10 @@ public class JanelaFX extends Application {
 		// Quarto Exercicio
 		CheckBox pais = new CheckBox("Aeroportos de um país");
 		CheckBox mundo = new CheckBox("Aeroportos do mundo");
+		TextField quantiAerops = new TextField("Quantidade de aeroportos");
 		Button btnConsulta4 = new Button("Exercicio 4");		
 		btnConsulta4.setOnAction(e -> {
+			//gerTrafego.setTamanhoVetor(Integer.valueOf(quantiAerops.getText()));
 			if (pais.isSelected()) {
 				exercicio4Pais();
 			} else if (mundo.isSelected()) {
@@ -148,9 +150,10 @@ public class JanelaFX extends Application {
 			dialogoInputs.getDialogPane().getChildren().get(2).setVisible(false);
 			
 			GridPane contents = new GridPane();
-			contents.add(pais, 0, 0);
-			contents.add(mundo, 0, 1);
-			contents.add(btnConsulta4, 1, 2);
+			contents.add(quantiAerops, 0, 0);
+			contents.add(pais, 0, 1);
+			contents.add(mundo, 0, 2);
+			contents.add(btnConsulta4, 1, 3);
 			dialogoInputs.getDialogPane().setContent(contents);
 			dialogoInputs.showAndWait();
 		});
@@ -498,17 +501,15 @@ public class JanelaFX extends Application {
 		GeoPosition paisLoc = gerenciador.getPosicao();
 		gerTrafego = new GerenciadorTrafego(gerRotas, 10);
 		gerenciador.clear();
-
 		gerTrafego.setTamanhoVetor(10);
-		ArrayList<Aeroporto> aux = gerTrafego.aeroportosDeUmPais(gerenciador, gerAero, paisLoc);
-		gerTrafego.carregaTamanhosArray(aux);
+		gerTrafego.carregaTamanhos();
 
 		int count = 5;
-		int tamanho = gerTrafego.getAeroportos().length - 1;
+		int tamanho = gerTrafego.getAeroportos().size() - 1;
 
-		for (int i = 0; i < gerTrafego.getAeroportos().length; i++) {
-			lstPoints.add(new MyWaypoint(cores.get(i), gerTrafego.getAeroportos()[tamanho - i].getNome(),
-					gerTrafego.getAeroportos()[tamanho - i].getLocal(), count));
+		for (int i = 0; i < gerTrafego.getTamanhoVetor(); i++) {
+			lstPoints.add(new MyWaypoint(cores.get(i), gerTrafego.getAeroportos().get(tamanho - i).getNome(),
+					gerTrafego.getAeroportos().get(tamanho - i).getLocal(), count));
 			count = count + 15;
 		}
 		
@@ -521,18 +522,18 @@ public class JanelaFX extends Application {
 
 	public void exercicio4Mundo() {
 		List<MyWaypoint> lstPoints = new ArrayList<>();
-		
-		gerenciador.clear();
 
 		gerTrafego.setTamanhoVetor(10);
-		gerTrafego.carregaTamanhosHashMap();
+		gerenciador.clear();
+
+		gerTrafego.carregaTamanhos();
 
 		int count = 5;
-		int tamanho = gerTrafego.getAeroportos().length - 1;
+		int tamanho = gerTrafego.getAeroportos().size() - 1;
 
-		for (int i = 0; i < gerTrafego.getAeroportos().length; i++) {
-			lstPoints.add(new MyWaypoint(cores.get(tamanho - i), gerTrafego.getAeroportos()[tamanho - i].getNome(),
-					gerTrafego.getAeroportos()[tamanho - i].getLocal(), count));
+		for (int i = 0; i < gerTrafego.getTamanhoVetor(); i++) {
+			lstPoints.add(new MyWaypoint(cores.get(tamanho - i), gerTrafego.getAeroportos().get(tamanho - i).getNome(),
+					gerTrafego.getAeroportos().get(tamanho - i).getLocal(), count));
 			count = count + 15;
 		}
 
