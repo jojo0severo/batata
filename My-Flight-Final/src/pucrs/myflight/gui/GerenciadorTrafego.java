@@ -48,12 +48,19 @@ public class GerenciadorTrafego {
 				maiores.add(aero);
 			}
 		}
-
 		return maiores;
 	}
 
-	public Map<Integer, ArrayList<Aeroporto>> getTamanhosJoJo() {
-		return tamanhosJoJo;
+	public ArrayList<Aeroporto> maioresPais(Pais pais) {
+		ArrayList<Aeroporto> maiores = new ArrayList<>();
+		for (Integer key : tamanhosJoJo.keySet()) {
+			for (Aeroporto aero : tamanhosJoJo.get(key)) {
+				if (aero.getPais().getCodigo().equals(pais.getCodigo())) {
+					maiores.add(aero);
+				}
+			}
+		}
+		return maiores;
 	}
 
 	public ArrayList<Aeroporto> getAeroportos() {
@@ -207,39 +214,5 @@ public class GerenciadorTrafego {
 
 		return aeroportos;
 	}
-	
-	/*
-	 * if (aero.getNome().contains("Guarulhos - ")) {
-					System.out.println(key + "     "+ aero);
-				}
-				if (aero.getNome().contains("Salgado Filho Airpor")) {
-					System.out.println(key + "     "+ aero);
-				}
-				if (aero.getNome().contains("Deputado Luiz Eduardo Magalhães")) {
-					System.out.println(key + "     "+ aero);
-				}
-				if (aero.getNome().contains("Congonhas Airpor")) {
-					System.out.println(key + "     "+ aero);
-				}
-				if (aero.getNome().contains("Tancredo Neves International")) {
-					System.out.println(key + "     "+ aero);
-				}
-				if (aero.getNome().contains("Presidente Juscelino Kub")) {
-					System.out.println(key + "     "+ aero);
-				}
-				if (aero.getNome().contains("Rio Galeão")) {
-					System.out.println(key + "     "+ aero);
-				}
-				if (aero.getNome().contains("Afonso Pena Airpo")) {
-					System.out.println(key + "     "+ aero);
-				}
-				if (aero.getNome().contains("Viracopos Internationa")) {
-					System.out.println(key + "     "+ aero);
-				}
-				if (aero.getNome().contains("Val de Cans/Júlio Cezar Ribeir")) {
-					System.out.println(key + "     "+ aero);
-				}
-	 * 
-	 */
 
 }

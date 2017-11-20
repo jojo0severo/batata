@@ -52,7 +52,7 @@ public class JanelaFX extends Application {
 	private GerenciadorPaises gerPais;
 	private ArrayList<Color> cores;
 	private ArrayList<Aeroporto> aeros;
-	private ArrayList<Aeroporto> aeros1;
+	private ArrayList<Aeroporto> aerosPais;
 	private ArrayList<Rota> rotas = new ArrayList<>();
 	private int cont = 0;
 
@@ -271,8 +271,7 @@ public class JanelaFX extends Application {
 			gerAero.carregaDados(gerPais);
 			gerRotas.carregaDados(gerCias, gerAero, gerAvioes);
 			gerRotas.carregaTamanhos();
-			aeros1 = gerTrafego1.maiores();
-			aeros = gerTrafego.maiores();
+			aeros = gerTrafego1.maiores();
 			comboAeroData = ObservableListAeronaves();
 			comboAeropData = ObservableListAeroportos();
 			// ====maior====
@@ -540,36 +539,15 @@ public class JanelaFX extends Application {
 		} else {
 			gerenciador.clear();
 
-			ArrayList<Aeroporto> aux = gerTrafego.aeroportosDeUmPais(gerenciador, gerAero, pais1);
+			aerosPais = gerTrafego.maioresPais(pais1);
 
-			gerTrafego.carregaTamanhosArray(aux);
-			gerTrafego.carregaValores();
+			int count = 150;
 
-			int count = 15;
-			
-			ArrayList<Aeroporto> aux2 = new ArrayList<>();
-			
-			int tamanho = gerTrafego.getAeroportos().size();
-			
-			for(int i = 0; i < gerTrafego.getAeroportos().size();i++) {
-				aux2.add(gerTrafego.getAeroportos().get(tamanho - i - 1));
+			for (int i = 0; i < gerTrafego1.getTamanhoVetor(); i++) {
+				lstPoints.add(
+						new MyWaypoint(cores.get(i), aerosPais.get(i).getNome(), aerosPais.get(i).getLocal(), count));
+				count = count - 15;
 			}
-			
-			for (int i = 0; i < gerTrafego.getAeroportos().size(); i++) {
-				System.out.println(aux2.get(i));
-				lstPoints.add(new MyWaypoint(cores.get(i), aux2.get(i).getNome(),
-						aux2.get(i).getLocal(), count));
-				count = count + 15;
-			}
-			// System.out.println(pais1);
-			// for (int i = 0; i < aeros1.size() - 1; i++) {
-			// if (aeros1.get(i).getPais().getNome().equals(pais1.getNome())) {
-			// System.out.println(aeros.get(i));
-			// lstPoints.add(new MyWaypoint(cores.get(i), aeros1.get(i).getNome(),
-			// aeros1.get(i).getLocal(), count));
-			// count = count - 15;
-			// }
-			// }
 
 			gerenciador.setPontos(lstPoints);
 			gerenciador.getMapKit().repaint();
@@ -669,43 +647,6 @@ public class JanelaFX extends Application {
 		}
 
 		gerenciador.getMapKit().repaint();
-
-		// for (Rota r : gerRotas.listarTodas()) {
-		// if (r.getOrigem().equals(inicialAerop)) {
-		// if (r.getDestino().equals(finalAerop)) {
-		// rotas.add(rota);
-		// Tracado tracado = new Tracado();
-		// tracado.addPonto(rota.getOrigem().getLocal());
-		// tracado.addPonto(rota.getDestino().getLocal());
-		// tracado.setWidth(1);
-		// gerenciador.addTracado(tracado);
-		// break;
-		// } else {
-		// Rota achou = achaDestino(finalAerop);
-		// if (achaDestino(finalAerop) == null) {
-		// Alert alert = new Alert(Alert.AlertType.WARNING);
-		// alert.setTitle("Rota inexistente");
-		// alert.setHeaderText("Locais Sem Rota");
-		// alert.setContentText("Nao existe rota para esses locais");
-		// alert.showAndWait();
-		//
-		// try {
-		// Thread.sleep(2000);
-		// } catch (InterruptedException e) {
-		// e.printStackTrace();
-		// }
-		// alert.close();
-		// } else {
-		// rotas.add(achou);
-		// Tracado tracado = new Tracado();
-		// tracado.addPonto(r.getOrigem().getLocal());
-		// tracado.addPonto(r.getDestino().getLocal());
-		// tracado.setWidth(1);
-		// gerenciador.addTracado(tracado);
-		// }
-		// }
-		// }
-		// }
 	}
 
 	public Rota achaDestinoDiretoDoido(Aeroporto aeropInicial, Aeroporto aeropFinal) {
