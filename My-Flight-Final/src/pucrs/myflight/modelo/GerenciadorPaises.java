@@ -56,7 +56,7 @@ public class GerenciadorPaises {
 	}
 
 	public Pais buscarPorCodigo(String cod) {
-		Pais pais = paises.get(cod);
+		Pais pais = paises.get(cod.toUpperCase());
 		return pais;
 	}
 
