@@ -12,6 +12,7 @@ import pucrs.myflight.modelo.*;
 
 public class GerenciadorTrafego {
 
+	private Map<Integer, ArrayList<Aeroporto>> tamanhosJoJo;
     private ArrayList<Integer> tamanhos;
     private ArrayList<Integer> tamanhos1;
     private ArrayList<Integer> valores;
@@ -31,10 +32,24 @@ public class GerenciadorTrafego {
         valores1 = new ArrayList<>();
         aeroportos = new ArrayList<>();
         aeroportosMundial = new ArrayList<>();
+        tamanhosJoJo = gerRotas.getTamanhos();
     }
 
     public ArrayList<Integer> getTamanhos() {
         return tamanhos;
+    }
+    public Integer getTamanhoVetor() {
+    	return tamanhoVetor;
+    }
+    
+    public ArrayList<Aeroporto> maiores(){
+    	ArrayList<Aeroporto> maiores = new ArrayList<>();
+    	for(Integer key: tamanhosJoJo.keySet()) {
+    		for(Aeroporto aero: tamanhosJoJo.get(key)) {
+    			maiores.add(aero);
+    		}
+    	}
+    	return maiores;
     }
 
     public ArrayList<Aeroporto> getAeroportos() {

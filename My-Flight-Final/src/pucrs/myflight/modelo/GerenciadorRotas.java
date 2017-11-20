@@ -8,24 +8,25 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
 
 public class GerenciadorRotas {
-	private TreeMap<Integer, ArrayList<Aeroporto>> tamanhos;
+	private Map<Integer, ArrayList<Aeroporto>> tamanhos;
     private HashMap<Aeroporto, Set<Rota>> rotasAerop;
     private ArrayList<Rota> rotas;
 
     public GerenciadorRotas() {
         rotasAerop = new HashMap<>();
         rotas = new ArrayList<>();
-        tamanhos = new TreeMap<>();
+        tamanhos = new TreeMap().descendingMap();
     }
     
     
 
-    public TreeMap<Integer, ArrayList<Aeroporto>> getTamanhos() {
+    public Map<Integer, ArrayList<Aeroporto>> getTamanhos() {
 		return tamanhos;
 	}
     
