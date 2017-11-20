@@ -67,21 +67,30 @@ public class JanelaFX extends Application {
 		buttonsPane.setHgap(50);
 		buttonsPane.setVgap(30);
 		buttonsPane.setPadding(new Insets(10, 10, 10, 10));
-
-		// Primeiro exercicio
+		
+		/*
+     		PRIMEIRO EXERCICIO
+		*/
+		
 		Text selecionar = new Text("Selecione o pais");
 		Button btnConsulta1 = new Button("Exercicio 1");
 		btnConsulta1.setOnAction(e -> {
 			exercicio1();
 		});
-
-		// Segundo Exercicio
+		
+		/*
+     		SEGUNDO EXERCICIO
+	    */
+		
 		Button btnConsulta2 = new Button("Exercicio 2");
 		btnConsulta2.setOnAction(e -> {
 			exercicio2();
 		});
-
-		// Terceiro Exercicio
+		
+		/*
+	     	TERCEIRO EXERCICIO
+	   */
+		
 		TextInputDialog dialogoInputs = new TextInputDialog();
 
 		TextField distancia = new TextField();
@@ -98,13 +107,11 @@ public class JanelaFX extends Application {
 
 		Button btnConsulta3AbreDialog = new Button("Exercicio 3");
 		btnConsulta3AbreDialog.setOnAction(e -> {
-			// Cria um TextInputDialog para melhorar a interacao com usuario
 			dialogoInputs.setTitle("Insercao de Dados");
 			dialogoInputs.setHeaderText("Insira as informacoes necessarias para o exercicio 3");
 			dialogoInputs.getDialogPane().getChildren().get(1).setVisible(false);
 			dialogoInputs.getDialogPane().getChildren().get(2).setVisible(false);
 
-			// Cria um GridPane com os itens que vao no TextInputDialog
 			GridPane contents = new GridPane();
 			contents.setVgap(15);
 			contents.setHgap(15);
@@ -112,12 +119,14 @@ public class JanelaFX extends Application {
 			contents.add(comboAeroporto, 0, 1);
 			contents.add(btnConsulta3, 1, 2);
 
-			// Adiciona o GridPane ao TextInputDialog
 			dialogoInputs.getDialogPane().setContent(contents);
 			dialogoInputs.showAndWait();
 		});
-
-		// Quarto Exercicio
+		
+		/*
+	    	QUARTO EXERCICIO
+	   */
+		
 		TextField tamanho = new TextField();
 		TextField codPais = new TextField();
 		TextField tamanho1 = new TextField();
@@ -125,14 +134,12 @@ public class JanelaFX extends Application {
 		Button pais = new Button("Pais");
 		Button paisConsulta = new Button("Consultar");
 		Button mundo = new Button("Mundo");
-		// Button btnConsulta4 = new Button("Exercicio 4");
 		pais.setOnAction(e -> {
 			GridPane contents = new GridPane();
 			contents.setVgap(15);
 			contents.setHgap(15);
 			contents.add(pais, 0, 0);
 			contents.add(codPais, 1, 0);
-			// contents.add(tamanho1, 1, 2);
 			contents.add(paisConsulta, 2, 1);
 
 			dialogoInputs.setTitle("Escolha Pais");
@@ -149,42 +156,6 @@ public class JanelaFX extends Application {
 		mundo.setOnAction(e -> {
 			exercicio4Mundo();
 		});
-		// btnConsulta4.setOnAction(e -> {
-		//
-		// gerenciador.clear();
-		// gerenciador.setPontos(new ArrayList<>());
-		//
-		// GridPane contents = new GridPane();
-		// contents.setVgap(15);
-		// contents.setHgap(15);
-		// contents.add(pais, 0, 0);
-		// contents.add(mundo, 1, 0);
-		//
-		//
-		// });
-		// if (pais.isSelected()) {
-		// Integer integer = Integer.valueOf(tamanho.getText().toString());
-		// gerTrafego.setTamanhoVetor(integer);
-		// exercicio4Pais();
-		// } else if (mundo.isSelected()) {
-		// Integer integer = Integer.valueOf(tamanho.getText().toString());
-		// gerTrafego.setTamanhoVetor(integer);
-		// exercicio4Mundo();
-		// } else {
-		// Alert alert = new Alert(Alert.AlertType.WARNING);
-		// alert.setTitle("Nenhuma opcao selecionado.");
-		// alert.setHeaderText("Nenhuma caixa de selecao escolhida.");
-		// alert.setContentText(
-		// "Por favor, selecione se deseja que sejam mostrados os aeroportos do mundo ou
-		// de um pa�s selecionado.");
-		// alert.showAndWait();
-		// try {
-		// Thread.sleep(1000);
-		// } catch (InterruptedException g) {
-		// g.printStackTrace();
-		// }
-		// alert.close();
-		// }
 
 		Button btnConsulta4AbreInputs = new Button("Exercicio 4");
 		btnConsulta4AbreInputs.setOnAction(e -> {
@@ -201,8 +172,13 @@ public class JanelaFX extends Application {
 			dialogoInputs.getDialogPane().setContent(contents);
 			dialogoInputs.showAndWait();
 		});
-
-		// Quinto Exercicio
+		
+		
+		/*
+	    	QUINTO EXERCICIO
+	    */
+		
+		
 		TextField codAeronave = new TextField();
 		comboAero = new ComboBox<Aeronave>(comboAeroData);
 		comboAero.setMaxWidth(150);
@@ -232,7 +208,10 @@ public class JanelaFX extends Application {
 
 		});
 
-		// Sexto Exercicio
+		/*
+		    SEXTO EXERCICIO
+		*/
+		 
 		TextField origem = new TextField();
 		TextField destino = new TextField();
 
@@ -243,13 +222,11 @@ public class JanelaFX extends Application {
 
 		Button btnConsulta6AbreInputs = new Button("Exercicio 6");
 		btnConsulta6AbreInputs.setOnAction(e -> {
-			// Cria um TextInputDialog para melhorar a interacao com usuario
 			dialogoInputs.setTitle("Insercao de Dados");
 			dialogoInputs.setHeaderText("Insira as informacoes necessarias para o exercicio 3");
 			dialogoInputs.getDialogPane().getChildren().get(1).setVisible(false);
 			dialogoInputs.getDialogPane().getChildren().get(2).setVisible(false);
 
-			// Cria um GridPane com os itens que vao no TextInputDialog
 			GridPane contents = new GridPane();
 			contents.setVgap(15);
 			contents.setHgap(15);
@@ -257,10 +234,11 @@ public class JanelaFX extends Application {
 			contents.add(destino, 0, 1);
 			contents.add(btnConsulta6, 3, 3);
 
-			// Adiciona o GridPane ao TextInputDialog
 			dialogoInputs.getDialogPane().setContent(contents);
 			dialogoInputs.showAndWait();
 		});
+		
+		
 
 		// Monta o GridPane
 		buttonsPane.add(selecionar, 0, 0);
@@ -271,6 +249,8 @@ public class JanelaFX extends Application {
 		buttonsPane.add(btnConsulta5AbreInputs, 0, 5);
 		buttonsPane.add(btnConsulta6AbreInputs, 0, 6);
 
+		
+		
 		// Chama o construtor da scene
 		constroiScene(buttonsPane, primaryStage);
 
@@ -591,14 +571,6 @@ public class JanelaFX extends Application {
 		List<MyWaypoint> lstPoints = new ArrayList<>();
 
 		gerenciador.clear();
-
-		// int count = 115;
-		//
-		// for(int i =0; i< gerTrafego1.getTamanhoVetor(); i++) {
-		// lstPoints.add(new MyWaypoint(cores.get(i), aeros.get(i).getNome(),
-		// aeros.get(i).getLocal(), count));
-		// count = count - 15;
-		// }
 
 		int count = 150;
 
