@@ -41,7 +41,7 @@ public class GerenciadorAeronaves {
 	}
 
 	public Aeronave buscarporCodigo(String cod) {
-		Aeronave aerov = aero.get(cod);
+		Aeronave aerov = aero.get(cod.toUpperCase());
 		return aerov;
 	}
 

@@ -41,7 +41,9 @@ public class GerenciadorRotas {
     public HashMap<Aeroporto, Set<Rota>> getHashMap() {
         return rotasAerop;
     }
-    
+
+
+
     public void carregaTamanhos() {
 		ArrayList<Aeroporto> aeroList;
 		for (Aeroporto aero : getHashMap().keySet()) {

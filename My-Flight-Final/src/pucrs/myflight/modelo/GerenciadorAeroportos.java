@@ -42,7 +42,7 @@ public class GerenciadorAeroportos {
 	}
 	
 	public Aeroporto buscarPorCodigo(String cod){
-		return aeroporto.get(cod);
+		return aeroporto.get(cod.toUpperCase());
 	}
 	
 	public Aeroporto buscarPorNome(String nome) {

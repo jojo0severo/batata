@@ -51,8 +51,8 @@ public class JanelaFX extends Application {
 	private GerenciadorTrafego gerTrafego;
 	private GerenciadorPaises gerPais;
 	private ArrayList<Color> cores;
+	private ArrayList<Aeroporto> aeroportosMundial;
 	private ArrayList<Aeroporto> aeros;
-	private ArrayList<Aeroporto> aerosPais;
 	private ArrayList<Rota> rotas = new ArrayList<>();
 	private int cont = 0;
 
@@ -72,7 +72,7 @@ public class JanelaFX extends Application {
 		 * PRIMEIRO EXERCICIO
 		 */
 
-		Text selecionar = new Text("Selecione o pais");
+		//Text selecionar = new Text("Selecione o pais");
 		Button btnConsulta1 = new Button("Exercicio 1");
 		btnConsulta1.setOnAction(e -> {
 			exercicio1();
@@ -92,18 +92,17 @@ public class JanelaFX extends Application {
 		 */
 
 		TextInputDialog dialogoInputs = new TextInputDialog();
-
+		Text distanciaText = new Text("Distancia para as Rotas");
 		TextField distancia = new TextField();
 		distancia.setMaxWidth(150);
-
+		Text codAeropText = new Text("Codigo do Aeroporto");
+		TextField codAerop = new TextField();
 		Button btnConsulta3 = new Button("Exercicio 3");
+
 		btnConsulta3.setOnAction(a -> {
-			exercicio3(comboAeroporto.getValue(), distancia.getText());
+			exercicio3(gerAero.buscarPorCodigo(codAerop.getText().toString()), distancia.getText());
 			dialogoInputs.close();
 		});
-
-		comboAeroporto = new ComboBox<Aeroporto>(comboAeropData);
-		comboAeroporto.setMaxWidth(150);
 
 		Button btnConsulta3AbreDialog = new Button("Exercicio 3");
 		btnConsulta3AbreDialog.setOnAction(e -> {
@@ -115,9 +114,11 @@ public class JanelaFX extends Application {
 			GridPane contents = new GridPane();
 			contents.setVgap(15);
 			contents.setHgap(15);
-			contents.add(distancia, 0, 0);
-			contents.add(comboAeroporto, 0, 1);
-			contents.add(btnConsulta3, 1, 2);
+			contents.add(distanciaText, 0, 0);
+			contents.add(distancia, 0, 1);
+			contents.add(codAeropText, 0, 2);
+			contents.add(codAerop, 0, 3);
+			contents.add(btnConsulta3, 1, 4);
 
 			dialogoInputs.getDialogPane().setContent(contents);
 			dialogoInputs.showAndWait();
@@ -177,30 +178,27 @@ public class JanelaFX extends Application {
 		 * QUINTO EXERCICIO
 		 */
 
+		Text codAeronaveText = new Text("Codigo da Aeronave");
 		TextField codAeronave = new TextField();
-		comboAero = new ComboBox<Aeronave>(comboAeroData);
-		comboAero.setMaxWidth(150);
 		Button btnConsulta5 = new Button("Exercicio 5");
 		btnConsulta5.setOnAction(e -> {
-			exercicio5(comboAero.getValue());
+			exercicio5(gerAvioes.buscarporCodigo(codAeronave.getText().toString()));
 		});
 
 		Button btnConsulta5AbreInputs = new Button("Exercicio 5");
 		btnConsulta5AbreInputs.setOnAction(e -> {
-			// Cria um TextInputDialog para melhorar a interacao com usuario
 			dialogoInputs.setTitle("Insercao de Dados");
 			dialogoInputs.setHeaderText("Insira as informacoes necessarias para o exercicio 3");
 			dialogoInputs.getDialogPane().getChildren().get(1).setVisible(false);
 			dialogoInputs.getDialogPane().getChildren().get(2).setVisible(false);
 
-			// Cria um GridPane com os itens que vao no TextInputDialog
 			GridPane contents = new GridPane();
 			contents.setVgap(15);
 			contents.setHgap(15);
-			contents.add(comboAero, 0, 0);
-			contents.add(btnConsulta5, 3, 3);
+			contents.add(codAeronaveText, 0, 0);
+			contents.add(codAeronave, 0, 1);
+			contents.add(btnConsulta5, 3, 4);
 
-			// Adiciona o GridPane ao TextInputDialog
 			dialogoInputs.getDialogPane().setContent(contents);
 			dialogoInputs.showAndWait();
 
@@ -237,7 +235,7 @@ public class JanelaFX extends Application {
 		});
 
 		// Monta o GridPane
-		buttonsPane.add(selecionar, 0, 0);
+		//buttonsPane.add(selecionar, 0, 0);
 		buttonsPane.add(btnConsulta1, 0, 1);
 		buttonsPane.add(btnConsulta2, 0, 2);
 		buttonsPane.add(btnConsulta3AbreDialog, 0, 3);
@@ -391,16 +389,30 @@ public class JanelaFX extends Application {
 					break;
 				}
 			}
-
-			for (String aeroporto : gerAero.listarTodos().keySet()) {
-				Aeroporto aux = gerAero.listarTodos().get(aeroporto);
-				if (aux.getPais().equals(pais)) {
-					lstPoints.add(new MyWaypoint(Color.RED, aux.getNome(), aux.getLocal(), 1));
+			if (pais == null) {
+				Alert alert = new Alert(Alert.AlertType.WARNING);
+				alert.setTitle("Nenhum pais encontrado.");
+				alert.setHeaderText("Nenhuma regiao valida do mapa foi selecionada.");
+				alert.setContentText("Por favor, selecione algum lugar valido no mapa e tente novamente.");
+				alert.showAndWait();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
-			}
+				alert.close();
+			} else {
+				for (String aeroporto : gerAero.listarTodos().keySet()) {
 
-			gerenciador.setPontos(lstPoints);
-			gerenciador.getMapKit().repaint();
+					Aeroporto aux = gerAero.listarTodos().get(aeroporto);
+					if (aux.getPais().equals(pais)) {
+						lstPoints.add(new MyWaypoint(Color.RED, aux.getNome(), aux.getLocal(), 1));
+					}
+				}
+
+				gerenciador.setPontos(lstPoints);
+				gerenciador.getMapKit().repaint();
+			}
 
 		} else {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -409,7 +421,7 @@ public class JanelaFX extends Application {
 			alert.setContentText("Por favor, selecione algum lugar no mapa e tente novamente.");
 			alert.showAndWait();
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -448,24 +460,41 @@ public class JanelaFX extends Application {
 					break;
 				}
 			}
-			for (Aeroporto aero : gerRotas.getHashMap().keySet()) {
-				if (aero.getPais().equals(pais) || aero.getPais().equals(pais)) {
-					for (Rota rota : gerRotas.getHashMap().get(aero)) {
-						lstPoints.add(
-								new MyWaypoint(Color.RED, rota.getOrigem().getNome(), rota.getOrigem().getLocal(), 1));
-						lstPoints.add(new MyWaypoint(Color.RED, rota.getDestino().getNome(),
-								rota.getDestino().getLocal(), 1));
-						Tracado tracado = new Tracado();
-						tracado.addPonto(rota.getOrigem().getLocal());
-						tracado.addPonto(rota.getDestino().getLocal());
-						tracado.setWidth(1);
-						gerenciador.addTracado(tracado);
-					}
+
+			if (pais == null) {
+				Alert alert = new Alert(Alert.AlertType.WARNING);
+				alert.setTitle("Nenhum pais selecionado.");
+				alert.setHeaderText("Nenhuma regiao valida do mapa foi selecionada.");
+				alert.setContentText("Por favor, selecione algum lugar valido no mapa e tente novamente.");
+				alert.showAndWait();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
+				alert.close();
 			}
 
-			gerenciador.setPontos(lstPoints);
-			gerenciador.getMapKit().repaint();
+			else {
+				for (Aeroporto aero : gerRotas.getHashMap().keySet()) {
+					if (aero.getPais().equals(pais) || aero.getPais().equals(pais)) {
+						for (Rota rota : gerRotas.getHashMap().get(aero)) {
+							lstPoints.add(new MyWaypoint(Color.RED, rota.getOrigem().getNome(),
+									rota.getOrigem().getLocal(), 1));
+							lstPoints.add(new MyWaypoint(Color.RED, rota.getDestino().getNome(),
+									rota.getDestino().getLocal(), 1));
+							Tracado tracado = new Tracado();
+							tracado.addPonto(rota.getOrigem().getLocal());
+							tracado.addPonto(rota.getDestino().getLocal());
+							tracado.setWidth(1);
+							gerenciador.addTracado(tracado);
+						}
+					}
+				}
+
+				gerenciador.setPontos(lstPoints);
+				gerenciador.getMapKit().repaint();
+			}
 
 		} else {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -474,7 +503,7 @@ public class JanelaFX extends Application {
 			alert.setContentText("Por favor, selecione algum lugar no mapa para que as rotas sejam marcadas.");
 			alert.showAndWait();
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -489,30 +518,44 @@ public class JanelaFX extends Application {
 	public void exercicio3(Aeroporto aero, String distancia) {
 		List<MyWaypoint> lstPoints = new ArrayList<>();
 
-		gerenciador.clear();
-
-		double distanciaD = Double.parseDouble(distancia);
-
-		Geo aux = new Geo(0, 0);
-		Geo aux2 = new Geo(0, 0);
-
-		ArrayList<Rota> rotas = gerRotas.buscarPorOrigem(aero);
-
-		for (Rota r : rotas) {
-			aux = r.getOrigem().getLocal();
-			aux2 = r.getDestino().getLocal();
-			if (aux.distancia(aux2) < distanciaD) {
-				lstPoints.add(new MyWaypoint(Color.RED, r.getOrigem().getNome(), r.getOrigem().getLocal(), 10));
-				Tracado tracado = new Tracado();
-				tracado.addPonto(r.getOrigem().getLocal());
-				tracado.addPonto(r.getDestino().getLocal());
-				tracado.setWidth(1);
-				gerenciador.addTracado(tracado);
+		if (aero == null || distancia.length() == 0) {
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("Nenhum aeroporto ou distancia.");
+			alert.setHeaderText("Nenhuma aeroporto ou distancia foi informado(a) ou encontrado.");
+			alert.setContentText("Por favor, digite um aeroporto ou distancia valido(a) para a pesquisa.");
+			alert.showAndWait();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
-		}
+			alert.close();
+		} else {
+			gerenciador.clear();
 
-		gerenciador.setPontos(lstPoints);
-		gerenciador.getMapKit().repaint();
+			double distanciaD = Double.parseDouble(distancia);
+
+			Geo aux = new Geo(0, 0);
+			Geo aux2 = new Geo(0, 0);
+
+			ArrayList<Rota> rotas = gerRotas.buscarPorOrigem(aero);
+
+			for (Rota r : rotas) {
+				aux = r.getOrigem().getLocal();
+				aux2 = r.getDestino().getLocal();
+				if (aux.distancia(aux2) < distanciaD) {
+					lstPoints.add(new MyWaypoint(Color.RED, r.getOrigem().getNome(), r.getOrigem().getLocal(), 10));
+					Tracado tracado = new Tracado();
+					tracado.addPonto(r.getOrigem().getLocal());
+					tracado.addPonto(r.getDestino().getLocal());
+					tracado.setWidth(1);
+					gerenciador.addTracado(tracado);
+				}
+			}
+
+			gerenciador.setPontos(lstPoints);
+			gerenciador.getMapKit().repaint();
+		}
 
 	}
 
@@ -521,7 +564,7 @@ public class JanelaFX extends Application {
 	public void exercicio4Pais(String codPais) {
 		Pais pais1;
 		pais1 = gerPais.buscarPorCodigo(codPais);
-
+		GerenciadorTrafego gerTrafego1 = new GerenciadorTrafego(gerRotas, 10);
 		List<MyWaypoint> lstPoints = new ArrayList<>();
 
 		if (pais1 == null) {
@@ -531,7 +574,7 @@ public class JanelaFX extends Application {
 			alert.setContentText("Por favor, informe um pais valido para que as rotas sejam marcadas.");
 			alert.showAndWait();
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -539,14 +582,18 @@ public class JanelaFX extends Application {
 		} else {
 			gerenciador.clear();
 
-			aerosPais = gerTrafego.maioresPais(pais1);
+			ArrayList<Aeroporto> aux = gerTrafego1.aeroportosDeUmPais(gerenciador, gerAero, pais1);
 
-			int count = 150;
+			gerTrafego1.carregaTamanhosArray(aux);
+			gerTrafego1.carregaValores();
 
-			for (int i = 0; i < gerTrafego1.getTamanhoVetor(); i++) {
-				lstPoints.add(
-						new MyWaypoint(cores.get(i), aerosPais.get(i).getNome(), aerosPais.get(i).getLocal(), count));
-				count = count - 15;
+			int count = 5;
+			int tamanho = gerTrafego1.getAeroportos().size() - 1;
+			int tamanho1 = gerTrafego1.getAeroportos1().length - 1;
+			for (int i = 0; i < gerTrafego1.getAeroportos().size(); i++) {
+				lstPoints.add(new MyWaypoint(cores.get(tamanho - i), gerTrafego1.getAeroportos().get(i).getNome(),
+						gerTrafego1.getAeroportos().get(tamanho - i).getLocal(), count));
+				count = count + 4;
 			}
 
 			gerenciador.setPontos(lstPoints);
@@ -575,29 +622,44 @@ public class JanelaFX extends Application {
 	// ================================================================================
 
 	public void exercicio5(Aeronave aero) {
-		HashMap<Rota, Aeroporto[]> rotas = new HashMap<>();
 
-		gerenciador.clear();
-		gerenciador.setPontos(new ArrayList<>());
-
-		for (Rota rota : gerRotas.listarTodas()) {
-			Aeroporto[] aeroDesOrig = new Aeroporto[2];
-
-			if (rota.getAeronave() == aero) {
-				aeroDesOrig[0] = rota.getOrigem();
-				aeroDesOrig[1] = rota.getDestino();
-				rotas.put(rota, aeroDesOrig);
+		if (aero == null) {
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("Aeronave nao encontrada.");
+			alert.setHeaderText("Nenhuma aeronave encontrada ou informada.");
+			alert.setContentText("Por favor, informe uma aeronave valida para que as rotas sejam marcadas.");
+			alert.showAndWait();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
-		}
+			alert.close();
+		} else {
+			HashMap<Rota, Aeroporto[]> rotas = new HashMap<>();
 
-		for (Rota rota : rotas.keySet()) {
-			Tracado tracado = new Tracado();
-			tracado.addPonto(rotas.get(rota)[0].getLocal());
-			tracado.addPonto(rotas.get(rota)[1].getLocal());
-			tracado.setWidth(1);
-			gerenciador.addTracado(tracado);
+			gerenciador.clear();
+			gerenciador.setPontos(new ArrayList<>());
+
+			for (Rota rota : gerRotas.listarTodas()) {
+				Aeroporto[] aeroDesOrig = new Aeroporto[2];
+
+				if (rota.getAeronave() == aero) {
+					aeroDesOrig[0] = rota.getOrigem();
+					aeroDesOrig[1] = rota.getDestino();
+					rotas.put(rota, aeroDesOrig);
+				}
+			}
+
+			for (Rota rota : rotas.keySet()) {
+				Tracado tracado = new Tracado();
+				tracado.addPonto(rotas.get(rota)[0].getLocal());
+				tracado.addPonto(rotas.get(rota)[1].getLocal());
+				tracado.setWidth(1);
+				gerenciador.addTracado(tracado);
+			}
+			gerenciador.getMapKit().repaint();
 		}
-		gerenciador.getMapKit().repaint();
 	}
 
 	// ================================================================================
@@ -631,7 +693,7 @@ public class JanelaFX extends Application {
 			alert.setContentText("Nao existe rota para esses locais");
 			alert.showAndWait();
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -647,6 +709,43 @@ public class JanelaFX extends Application {
 		}
 
 		gerenciador.getMapKit().repaint();
+
+		// for (Rota r : gerRotas.listarTodas()) {
+		// if (r.getOrigem().equals(inicialAerop)) {
+		// if (r.getDestino().equals(finalAerop)) {
+		// rotas.add(rota);
+		// Tracado tracado = new Tracado();
+		// tracado.addPonto(rota.getOrigem().getLocal());
+		// tracado.addPonto(rota.getDestino().getLocal());
+		// tracado.setWidth(1);
+		// gerenciador.addTracado(tracado);
+		// break;
+		// } else {
+		// Rota achou = achaDestino(finalAerop);
+		// if (achaDestino(finalAerop) == null) {
+		// Alert alert = new Alert(Alert.AlertType.WARNING);
+		// alert.setTitle("Rota inexistente");
+		// alert.setHeaderText("Locais Sem Rota");
+		// alert.setContentText("Nao existe rota para esses locais");
+		// alert.showAndWait();
+		//
+		// try {
+		// Thread.sleep(2000);
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// }
+		// alert.close();
+		// } else {
+		// rotas.add(achou);
+		// Tracado tracado = new Tracado();
+		// tracado.addPonto(r.getOrigem().getLocal());
+		// tracado.addPonto(r.getDestino().getLocal());
+		// tracado.setWidth(1);
+		// gerenciador.addTracado(tracado);
+		// }
+		// }
+		// }
+		// }
 	}
 
 	public Rota achaDestinoDiretoDoido(Aeroporto aeropInicial, Aeroporto aeropFinal) {
